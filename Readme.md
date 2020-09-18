@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Roman Vyacheslavovich](https://up.htmlacademy.ru/javascript/21/user/1461353).
-* Наставник: `Неизвестно`.
+* Наставник: [Владислав Молчанов](https://htmlacademy.ru/profile/id137398).
 
 ---
 
