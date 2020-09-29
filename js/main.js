@@ -1,5 +1,5 @@
 'use strict';
-const numberBlockImg = 25;
+const NUMBER_BLOCK_IMG = 25;
 const picturesContainer = document.querySelector(`.pictures`);
 const templatePicture = document.querySelector(`#picture`).content;
 const messageComments = [
@@ -43,8 +43,8 @@ const randomNumber = (min, max) => {
   return (Math.random() * (max - min + 1)) + min;
 };
 const templateFormation = () => {
-  let template = [];
-  for (let i = 1; i <= 25; i++) {
+  const template = [];
+  for (let i = 1; i <= NUMBER_BLOCK_IMG; i++) {
     template.push({ // добавить объект в массив
       url: `photos/${i}.jpg`,
       description: `строка — описание фотографии.`,
@@ -71,16 +71,16 @@ const templateFormation = () => {
   }
   return template;
 };
-let renderBlockImg = (nameTemplate) => {
-  let blockTemplate = templatePicture.cloneNode(true);
+const renderBlockImg = (nameTemplate) => {
+  const blockTemplate = templatePicture.cloneNode(true);
   blockTemplate.querySelector(`.picture__img`).src = nameTemplate.url;
   blockTemplate.querySelector(`.picture__likes`).textContent = nameTemplate.likes;
   blockTemplate.querySelector(`.picture__comments`).textContent = nameTemplate.comments.length;
   return blockTemplate;
 };
-let fragment = document.createDocumentFragment();
+const fragment = document.createDocumentFragment();
 const renderedTemplate = templateFormation();
-for (let i = 0; i < numberBlockImg; i++) {
+for (let i = 0; i < NUMBER_BLOCK_IMG; i++) {
   fragment.appendChild(renderBlockImg(renderedTemplate[i]));
 }
 picturesContainer.appendChild(fragment);
