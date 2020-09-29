@@ -37,36 +37,52 @@ const nameComments = [
   `Владислав`,
   `Иосиф`
 ];
+
+
 const randomNumber = (min, max) => {
   return (Math.random() * (max - min + 1)) + min;
 };
-const imgFunc = () => {
+const templateFormation = () => {
+  let template = [];
   for (let i = 1; i <= 25; i++) {
-    let img = [
-      {
-        url: `photos/${i}.jpg`,
-        description: `строка — описание фотографии.`,
-        likes: Math.floor(randomNumber(15, 200)),
-        comments: {
+    template.push({ // добавить объект в массив
+      url: `photos/${i}.jpg`,
+      description: `строка — описание фотографии.`,
+      likes: Math.floor(randomNumber(15, 200)),
+      comments:
+      [
+        {
           avatar: `img/avatar-${Math.floor(randomNumber(1, 6))}.svg`,
           message: messageComments[Math.floor(randomNumber(0, messageComments.length - 1))],
           name: nameComments[Math.floor(randomNumber(0, nameComments.length - 1))]
         },
-      }
-    ];
-
+        {
+          avatar: `img/avatar-${Math.floor(randomNumber(1, 6))}.svg`,
+          message: messageComments[Math.floor(randomNumber(0, messageComments.length - 1))],
+          name: nameComments[Math.floor(randomNumber(0, nameComments.length - 1))]
+        },
+        {
+          avatar: `img/avatar-${Math.floor(randomNumber(1, 6))}.svg`,
+          message: messageComments[Math.floor(randomNumber(0, messageComments.length - 1))],
+          name: nameComments[Math.floor(randomNumber(0, nameComments.length - 1))]
+        }
+      ],
+    });
   }
+  return template;
 };
-
-let renderBlockImg = () => {
-  let blockImg = templatePicture.cloneNode(true);
-  blockImg.querySelector(`.picture__img`).src = imgFunc.url;
-  blockImg.querySelector(`.picture__likes`).textContent = imgFunc.likes;
-  return blockImg;
+let renderBlockImg = (nameTemplate) => {
+  let blockTemplate = templatePicture.cloneNode(true);
+  blockTemplate.querySelector(`.picture__img`).src = nameTemplate.url;
+  blockTemplate.querySelector(`.picture__likes`).textContent = nameTemplate.likes;
+  blockTemplate.querySelector(`.picture__comments`).textContent = nameTemplate.comments.length;
+  return blockTemplate;
 };
-for (let i = 0; i <= numberBlockImg; i++) {
-  picturesContainer.appendChild(renderBlockImg());
+let fragment = document.createDocumentFragment();
+const renderedTemplate = templateFormation();
+for (let i = 0; i < numberBlockImg; i++) {
+  fragment.appendChild(renderBlockImg(renderedTemplate[i]));
 }
+picturesContainer.appendChild(fragment);
 
-
-imgFunc();
+templateFormation();
