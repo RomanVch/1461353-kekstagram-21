@@ -37,8 +37,16 @@ const nameComments = [
   `Владислав`,
   `Иосиф`
 ];
+const bigPicture = document.querySelector(`.big-picture`);
+const socialCommentCount = bigPicture.querySelector(`.social__comment-count`);
+const commentsLoader = bigPicture.querySelector(`.comments-loader`);
+const body = document.body;
+const socialPicture = bigPicture.querySelector(`.social__picture`);
 
-
+body.classList.add(`modal-open`);
+bigPicture.classList.remove(`hidden`);
+socialCommentCount.classList.add(`hidden`);
+commentsLoader.classList.add(`hidden`);
 const randomNumber = (min, max) => {
   return (Math.random() * (max - min + 1)) + min;
 };
@@ -86,3 +94,14 @@ for (let i = 0; i < NUMBER_BLOCK_IMG; i++) {
 picturesContainer.appendChild(fragment);
 
 templateFormation();
+
+const bigPictureRender = (nameElement) => {
+  bigPicture.querySelector(`.big-picture__imgsrc`).src = nameElement.url;
+  bigPicture.querySelector(`.likes-count`).textContent = nameElement.likes;
+  bigPicture.querySelector(`.comments-count`).textContent = nameElement.comments.length;
+  socialPicture.src = nameElement.comments[0].avatar;
+  socialPicture.alt = nameElement.comments[0].name;
+  bigPicture.querySelector(`.social__text`).textContent = nameElement.description;
+};
+bigPictureRender(renderedTemplate[0]);
+
