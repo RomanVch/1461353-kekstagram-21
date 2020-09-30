@@ -40,7 +40,8 @@ const nameComments = [
 const bigPicture = document.querySelector(`.big-picture`);
 const socialCommentCount = bigPicture.querySelector(`.social__comment-count`);
 const commentsLoader = bigPicture.querySelector(`.comments-loader`);
-const body = document.querySelector(`body`);
+const body = document.body;
+const socialPicture = bigPicture.querySelector(`.social__picture`);
 
 body.classList.add(`modal-open`);
 bigPicture.classList.remove(`hidden`);
@@ -98,8 +99,8 @@ const bigPictureRender = (nameElement) => {
   bigPicture.querySelector(`.big-picture__imgsrc`).src = nameElement.url;
   bigPicture.querySelector(`.likes-count`).textContent = nameElement.likes;
   bigPicture.querySelector(`.comments-count`).textContent = nameElement.comments.length;
-  bigPicture.querySelector(`.social__picture`).src = nameElement.comments[0].avatar;
-  bigPicture.querySelector(`.social__picture`).alt = nameElement.comments[0].name;
+  socialPicture.src = nameElement.comments[0].avatar;
+  socialPicture.alt = nameElement.comments[0].name;
   bigPicture.querySelector(`.social__text`).textContent = nameElement.description;
 };
 bigPictureRender(renderedTemplate[0]);
