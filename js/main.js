@@ -260,20 +260,20 @@ const slider = (function () {
 // валидация хэштега
 const hastag = document.querySelector(`.text__hashtags`);
 const hastagReg = /#.{0,}/g;
-const hastagSymbolsReg = /#[\w\dа-яА-Я]{0,}/gi;
+const hastagSymbolsReg = /#[a-zA-Z0-9а-яА-Я]{0,}/gi;
 const reg = /^#[\d\w]{1,19}$/gi;
 
 hastag.addEventListener(`input`, function () {
   let hastagsMeaning = hastag.value.split(` `);
-  for (let i = 0; i < hastagsMeaning.length - 1; i++) {
+  for (let i = 0; i < hastagsMeaning.length; i++) {
     console.log(hastagsMeaning);
     if (hastagsMeaning.length > 5) {
       hastag.setCustomValidity(`нельзя указать больше пяти хэш-тегов`);
-    } else if (!hastagReg.test(hastagsMeaning[i])) {
+    } else if (hastagsMeaning[i][0] !== `#`) {
       hastag.setCustomValidity(`хэш-тег начинается с символа #`);
     } else if (!hastagSymbolsReg.test(hastagsMeaning[i])) {
       hastag.setCustomValidity(`строка после решётки должна состоять из букв и чисел`);
-      console.log(hastagsMeaning[i]);
+      console.log(!hastagSymbolsReg.test(hastagsMeaning[i]));
     } else if (hastagsMeaning[i] === `#`) {
       hastag.setCustomValidity(`не #`);
       console.log(hastagsMeaning[i]);
