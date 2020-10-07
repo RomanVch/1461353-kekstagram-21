@@ -62,13 +62,13 @@ const arrayEfects = [
   `.effects__preview--heat`,
 ];
 body.classList.add(`modal-open`);
-
+/*
 // cлайдер
 let effectLevelLine = imgUpload.querySelector(`.effect-level__line`);
 let effectLevelPin = imgUpload.querySelector(`.effect-level__pin`);
 let effectLevelDepth = imgUpload.querySelector(`.effect-level__depth`);
 let effectLevelValue = imgUpload.querySelector(`.effect-level__value`);
-let shift = 25;
+let shift = 25;*/
 // слайдер
 socialCommentCount.classList.add(`hidden`);
 commentsLoader.classList.add(`hidden`);
@@ -259,16 +259,27 @@ const slider = (function () {
 })();*/
 // валидация хэштега
 const hastag = document.querySelector(`.text__hashtags`);
+const hastagReg = /#.{0,}/g;
+const hastagSymbolsReg = /#[\w\dа-яА-Я]{0,}/gi;
 const reg = /^#[\d\w]{1,19}$/gi;
-const hastagArray = hastag.value.split(` `);
 
-hastag.addEventListener(`invalid`, function () {
-  if (hastagArray.length > 5) {
-    console.log(`тупица`);
-    hastag.setCustomValidity(`нельзя указать больше пяти хэш-тегов`);
-  } else if (!reg.test(hastag.value) === true) {
-    hastag.setCustomValidity(`символов должно от 2-20`);
-    console.log(`привет`);
+hastag.addEventListener(`input`, function () {
+  let hastagsMeaning = hastag.value.split(` `);
+  for (let i = 0; i < hastagsMeaning.length - 1; i++) {
+    console.log(hastagsMeaning);
+    if (hastagsMeaning.length > 5) {
+      hastag.setCustomValidity(`нельзя указать больше пяти хэш-тегов`);
+    } else if (!hastagReg.test(hastagsMeaning[i])) {
+      hastag.setCustomValidity(`хэш-тег начинается с символа #`);
+    } else if (!hastagSymbolsReg.test(hastagsMeaning[i])) {
+      hastag.setCustomValidity(`строка после решётки должна состоять из букв и чисел`);
+      console.log(hastagsMeaning[i]);
+    } else if (hastagsMeaning[i] === `#`) {
+      hastag.setCustomValidity(`не #`);
+      console.log(hastagsMeaning[i]);
+    } else {
+      hastag.setCustomValidity(``);
+    }
   }
 });
 /*
@@ -281,7 +292,7 @@ hastag.addEventListener(`invalid`, function () {
 6) хэш-теги разделяются пробелами; - это решается .split(` `);
 7) один и тот же хэш-тег не может быть использован дважды; - не могу понять нужно удалять дубль или или должна вылазить ошибка не должно быть повторений
 8) нельзя указать больше пяти хэш-тегов; наверное
-if (hastagArray.length >= 5) {
+if (hastagsMeaning.length >= 5) {
   hastag.setCustomValidity(`нельзя указать больше пяти хэш-тегов`);
 }
 9) хэш-теги необязательны; ??? форма может отправиться и без хэштегов ?(необязательное поле)
