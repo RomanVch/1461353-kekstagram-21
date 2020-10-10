@@ -61,7 +61,7 @@ const arrayEfects = [
   `effects__preview--phobos`,
   `effects__preview--heat`,
 ];
-body.classList.add(`modal-open`);
+
 
 const effectLevelLine = imgUpload.querySelector(`.effect-level__line`);
 const effectLevelPin = imgUpload.querySelector(`.effect-level__pin`);
@@ -69,7 +69,6 @@ const effectLevelDepth = imgUpload.querySelector(`.effect-level__depth`);
 const effectLevelValue = imgUpload.querySelector(`.effect-level__value`);
 let shift = 25;
 // слайдер
-body.style.overflow = `visible`;
 socialCommentCount.classList.add(`hidden`);
 commentsLoader.classList.add(`hidden`);
 const randomNumber = (min, max) => {
