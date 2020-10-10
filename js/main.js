@@ -69,6 +69,7 @@ const effectLevelDepth = imgUpload.querySelector(`.effect-level__depth`);
 const effectLevelValue = imgUpload.querySelector(`.effect-level__value`);
 let shift = 25;
 // слайдер
+body.style.overflow = `visible`;
 socialCommentCount.classList.add(`hidden`);
 commentsLoader.classList.add(`hidden`);
 const randomNumber = (min, max) => {
