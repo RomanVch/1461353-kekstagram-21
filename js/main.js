@@ -55,20 +55,19 @@ const prewiewFoto = imgUpload.querySelector(`#prewiew__foto`);
 const imgUploadEffectLevel = imgUpload.querySelector(`.img-upload__effect-level`);
 const arrayEfects = [
   ``,
-  `.effects__preview--chrome`,
-  `.effects__preview--sepia`,
-  `.effects__preview--marvin`,
-  `.effects__preview--phobos`,
-  `.effects__preview--heat`,
+  `effects__preview--chrome`,
+  `effects__preview--sepia`,
+  `effects__preview--marvin`,
+  `effects__preview--phobos`,
+  `effects__preview--heat`,
 ];
 body.classList.add(`modal-open`);
-/*
-// cлайдер
-let effectLevelLine = imgUpload.querySelector(`.effect-level__line`);
-let effectLevelPin = imgUpload.querySelector(`.effect-level__pin`);
-let effectLevelDepth = imgUpload.querySelector(`.effect-level__depth`);
-let effectLevelValue = imgUpload.querySelector(`.effect-level__value`);
-let shift = 25;*/
+
+const effectLevelLine = imgUpload.querySelector(`.effect-level__line`);
+const effectLevelPin = imgUpload.querySelector(`.effect-level__pin`);
+const effectLevelDepth = imgUpload.querySelector(`.effect-level__depth`);
+const effectLevelValue = imgUpload.querySelector(`.effect-level__value`);
+let shift = 25;
 // слайдер
 socialCommentCount.classList.add(`hidden`);
 commentsLoader.classList.add(`hidden`);
@@ -130,21 +129,21 @@ const bigPictureRender = (nameElement) => {
 };
 bigPictureRender(renderedTemplate[0]);
 
-let fotoLoad = () => {
+const fotoLoad = () => {
   uploadFile.addEventListener(`change`, function () {
     imgUploadOverlay.classList.remove(`hidden`);
     body.classList.add(`modal-open`);
   });
 };
 fotoLoad();
-let fotoLoadClosed = () => {
+const fotoLoadClosed = () => {
   upLoadCancel.addEventListener(`click`, function () {
     imgUploadOverlay.classList.add(`hidden`);
     uploadFile.value = ``;
     body.classList.remove(`modal-open`);
   });
   document.addEventListener(`keydown`, function (evt) {
-    if (evt.key === `Escape`) {
+    if (document.activeElement !== hastag && evt.key === `Escape`) {
       evt.preventDefault();
       imgUploadOverlay.classList.add(`hidden`);
       uploadFile.value = ``;
@@ -155,7 +154,7 @@ let fotoLoadClosed = () => {
 fotoLoadClosed();
 let j = 100;
 
-let funScaleSmall = () => {
+const funScaleSmall = () => {
   if (j > 1) {
     j = j - 25;
     scaleControlValue.value = j + `%`;
@@ -168,7 +167,7 @@ let funScaleSmall = () => {
 };
 
 
-let funScaleBig = () => {
+const funScaleBig = () => {
   if (j < 100) {
     j = j + 25;
     scaleControlValue.value = j + `%`;
@@ -180,7 +179,7 @@ let funScaleBig = () => {
   }
 };
 
-let funScaleButton = () => {
+const funScaleButton = () => {
   scaleControlSmaller.addEventListener(`click`, function () {
     funScaleSmall();
   });
@@ -192,7 +191,7 @@ let funScaleButton = () => {
 };
 
 funScaleButton();
-let funDelEffects = () => {
+const funDelEffects = () => {
   effectsRadio[0].addEventListener(`change`, function () {
     prewiewFoto.className = ``;
     imgUploadEffectLevel.classList.add(`hidden`);
@@ -200,21 +199,38 @@ let funDelEffects = () => {
 };
 funDelEffects();
 
-let funAddEffects = () => {
+const funAddEffects = () => {
   for (let i = 0; i < effectsRadio.length; i++) {
     effectsRadio[i].addEventListener(`change`, function () {
       funDelEffects();
       prewiewFoto.className = ``;
-      prewiewFoto.classList.remove();
       imgUploadEffectLevel.classList.remove(`hidden`);
       prewiewFoto.classList.add(arrayEfects[i]);
+      const effectsDef = [
+        ``,
+        `grayscale(1)`,
+        `sepia(1)`,
+        `invert(100%)`,
+        `blur(3px)`,
+        `brightness(3)`,
+      ];
+      for (let y = 0; y < effectsDef.length; y++) {
+        if (prewiewFoto.classList.contains(arrayEfects[y])) {
+          prewiewFoto.style.filter = effectsDef[y];
+        } else if (shift !== 100) {
+          shift = 100;
+          effectLevelPin.style.left = `100%`;
+          effectLevelDepth.style.width = `100%`;
+        }
+      }
     });
   }
 };
 
 funAddEffects();
-/*
-const slider = (function () {
+
+
+const slider = (() => {
 
 
   effectLevelPin.addEventListener(`mousedown`, onSliderPinActive);
@@ -229,18 +245,19 @@ const slider = (function () {
   }
 
   // функция обработки mousemove и рассчета положения ползунка в процентах
-
   function onSliderPinMove(evt) {
     const scaleMax = effectLevelLine.getBoundingClientRect().right;
     const scaleMin = effectLevelLine.getBoundingClientRect().left;
     let currentX = evt.clientX;
-    currentX > scaleMax ? currentX = scaleMax : currentX;
-    currentX < scaleMin ? currentX = scaleMin : currentX;
+    if (currentX > scaleMax) {
+      currentX = scaleMax;
+    } else if (currentX < scaleMin) {
+      currentX = scaleMin;
+    }
     shift = parseInt((currentX - scaleMin) * 100 / (scaleMax - scaleMin), 10);
     slider.shift = parseInt((currentX - scaleMin) * 100 / (scaleMax - scaleMin), 10);
     effectLevelPin.style.left = `${shift}%`;
     effectLevelDepth.style.width = `${shift}%`;
-    effectLevelValue.value = shift;
   }
 
   // функция обработки mouseup при перетягивании ползунка
@@ -251,51 +268,56 @@ const slider = (function () {
     document.removeEventListener(`mouseup`, onSliderPinDrop);
   }
 
+
   return {
     shift,
     effectLevelPin,
     effectLevelDepth
   };
-})();*/
+
+})();
+
+imgUploadEffectLevel.addEventListener(`mousemove`, () => {
+  const brightnessStep = 1 + (shift / 50);
+  const effects = [
+    ``,
+    `grayscale(${shift / 100})`,
+    `sepia(${shift / 100})`,
+    `invert(${shift}%)`,
+    `blur(${shift / 33.3333}px)`,
+    `brightness(${brightnessStep})`,
+  ];
+  for (let i = 0; i < effects.length; i++) {
+    if (prewiewFoto.classList.contains(arrayEfects[i])) {
+      prewiewFoto.style.filter = effects[i];
+    }
+  }
+});
+
 // валидация хэштега
 const hastag = document.querySelector(`.text__hashtags`);
-const hastagReg = /#.{0,}/g;
-const hastagSymbolsReg = /#[a-zA-Z0-9а-яА-Я]{0,}/gi;
-const reg = /^#[\d\w]{1,19}$/gi;
+const hastagSymbolsReg = /^#[\w\dа-яА-Я]{1,}$/i;
+const regLong = /^#[a-zа-я-0-9]{0,20}$/i;
 
-hastag.addEventListener(`input`, function () {
-  let hastagsMeaning = hastag.value.split(` `);
-  for (let i = 0; i < hastagsMeaning.length; i++) {
-    console.log(hastagsMeaning);
-    if (hastagsMeaning.length > 5) {
+hastag.addEventListener(`input`, () => {
+  const hashtagsSeparator = hastag.value.toLowerCase().split(` `);
+  const uniqHastags = [...new Set(hashtagsSeparator)];
+  for (let i = 0; i < hashtagsSeparator.length; i++) {
+    if (hashtagsSeparator.length > 5) {
       hastag.setCustomValidity(`нельзя указать больше пяти хэш-тегов`);
-    } else if (hastagsMeaning[i][0] !== `#`) {
+    } else if (hashtagsSeparator[i][0] !== `#`) {
       hastag.setCustomValidity(`хэш-тег начинается с символа #`);
-    } else if (!hastagSymbolsReg.test(hastagsMeaning[i])) {
+    } else if (!hastagSymbolsReg.test(hashtagsSeparator[i])) {
       hastag.setCustomValidity(`строка после решётки должна состоять из букв и чисел`);
-      console.log(!hastagSymbolsReg.test(hastagsMeaning[i]));
-    } else if (hastagsMeaning[i] === `#`) {
+    } else if (hashtagsSeparator[i] === `#`) {
       hastag.setCustomValidity(`не #`);
-      console.log(hastagsMeaning[i]);
+    } else if (!regLong.test(hashtagsSeparator[i])) {
+      hastag.setCustomValidity(`максимальная длина одного хэш-тега 20 символов`);
+    } else if (uniqHastags.length !== hashtagsSeparator.length) {
+      hastag.setCustomValidity(`один и тот же хэш-тег не может быть использован дважды`);
     } else {
       hastag.setCustomValidity(``);
     }
   }
 });
-/*
-1) хэш-тег начинается с символа # (решётка); - это решает const reg = /^#[\d\w]{1,19}$/gi;
-2) строка после решётки должна состоять из букв и чисел и не может содержать пробелы,
-спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.; - это решает const reg = /^#[\d\w]{1,19}$/gi;
-3) хеш-тег не может состоять только из одной решётки; - это решает const reg = /^#[\d\w]{1,19}$/gi;
-4) максимальная длина одного хэш-тега 20 символов, включая решётку; - это решает const reg = /^#[\d\w]{1,19}$/gi;
-5) хэш-теги нечувствительны к регистру: #ХэшТег и #хэштег считаются одним и тем же тегом;  - это решает const reg = /^#[\d\w]{1,19}$/gi;
-6) хэш-теги разделяются пробелами; - это решается .split(` `);
-7) один и тот же хэш-тег не может быть использован дважды; - не могу понять нужно удалять дубль или или должна вылазить ошибка не должно быть повторений
-8) нельзя указать больше пяти хэш-тегов; наверное
-if (hastagsMeaning.length >= 5) {
-  hastag.setCustomValidity(`нельзя указать больше пяти хэш-тегов`);
-}
-9) хэш-теги необязательны; ??? форма может отправиться и без хэштегов ?(необязательное поле)
-10) если фокус находится в поле ввода хэш-тега, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
-просто сделать нажатие не активным (пока хз как)
-*/
+
