@@ -120,7 +120,6 @@ picturesContainer.appendChild(fragment);
 
 templateFormation();
 const smallWindowPictures = document.querySelectorAll(`.picture`);
-console.log(template.url);
 const bigPictureRender = () => {
   for (let i = 0; i < smallWindowPictures.length; i++) {
     smallWindowPictures[i].addEventListener(`click`, function () {
@@ -146,21 +145,19 @@ const bigPictureRender = () => {
 };
 
 bigPictureRender();
-  //for (let i = 0; i < smallWindowPictures.length; i++) {
+// for (let i = 0; i < smallWindowPictures.length; i++) {
 
-      //bigPicture.classList.remove(`hidden`);1
+// bigPicture.classList.remove(`hidden`);1
 
-     // bigPicture.querySelector(`.big-picture__imgsrc`).src = nameElement.url;1
-      // bigPicture.querySelector(`.likes-count`).textContent = nameElement.likes;2
-      // bigPicture.querySelector(`.comments-count`).textContent = nameElement.comments.length;3
-      // socialPicture.src = nameElement.comments[0].avatar;
-      // socialPicture.alt = nameElement.comments[0].name;
-      // bigPicture.querySelector(`.social__text`).textContent = nameElement.description;
-      //bigPictureRender(renderedTemplate[i]);
+// bigPicture.querySelector(`.big-picture__imgsrc`).src = nameElement.url;1
+// bigPicture.querySelector(`.likes-count`).textContent = nameElement.likes;2
+// bigPicture.querySelector(`.comments-count`).textContent = nameElement.comments.length;3
+// socialPicture.src = nameElement.comments[0].avatar;
+// socialPicture.alt = nameElement.comments[0].name;
+// bigPicture.querySelector(`.social__text`).textContent = nameElement.description;
+// bigPictureRender(renderedTemplate[i]);
 
- // }
-
-
+// }
 
 const fotoLoad = () => {
   uploadFile.addEventListener(`change`, function () {
@@ -358,7 +355,6 @@ const MAX_COMMENT_LENGTH = 140;
 const comentFoto = document.querySelector(`.text__description`);
 comentFoto.addEventListener(`input`, () => {
   const valueLength = comentFoto.value.length;
-  console.log(valueLength);
   if (MAX_COMMENT_LENGTH < valueLength) {
     comentFoto.setCustomValidity(`максимальная длина коментария 140 символов`);
   } else {
