@@ -298,6 +298,8 @@ imgUploadEffectLevel.addEventListener(`mousemove`, () => {
 const hastag = document.querySelector(`.text__hashtags`);
 const hastagSymbolsReg = /^#[\w\dа-яА-Я]{1,}$/i;
 const regLong = /^#[a-zа-я-0-9]{0,20}$/i;
+const regLongComent = /^.{0,140}$/i;
+const comentFoto = document.querySelector(`.text__description`);
 
 hastag.addEventListener(`input`, () => {
   const hashtagsSeparator = hastag.value.toLowerCase().split(` `);
@@ -321,3 +323,9 @@ hastag.addEventListener(`input`, () => {
   }
 });
 
+
+comentFoto.addEventListener(`input`, () => {
+  if (!regLongComent.test(comentFoto)) {
+    comentFoto.setCustomValidity(`максимальная длина коментария 140 символов`);
+  }
+});
