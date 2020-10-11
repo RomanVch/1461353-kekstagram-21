@@ -74,8 +74,9 @@ commentsLoader.classList.add(`hidden`);
 const randomNumber = (min, max) => {
   return (Math.random() * (max - min + 1)) + min;
 };
+const template = [];
 const templateFormation = () => {
-  const template = [];
+
   for (let i = 1; i <= NUMBER_BLOCK_IMG; i++) {
     template.push({ // добавить объект в массив
       url: `photos/${i}.jpg`,
@@ -118,16 +119,48 @@ for (let i = 0; i < NUMBER_BLOCK_IMG; i++) {
 picturesContainer.appendChild(fragment);
 
 templateFormation();
-
-const bigPictureRender = (nameElement) => {
-  bigPicture.querySelector(`.big-picture__imgsrc`).src = nameElement.url;
-  bigPicture.querySelector(`.likes-count`).textContent = nameElement.likes;
-  bigPicture.querySelector(`.comments-count`).textContent = nameElement.comments.length;
-  socialPicture.src = nameElement.comments[0].avatar;
-  socialPicture.alt = nameElement.comments[0].name;
-  bigPicture.querySelector(`.social__text`).textContent = nameElement.description;
+const smallWindowPictures = document.querySelectorAll(`.picture`);
+console.log(template.url);
+const bigPictureRender = () => {
+  for (let i = 0; i < smallWindowPictures.length; i++) {
+    smallWindowPictures[i].addEventListener(`click`, function () {
+      bigPicture.classList.remove(`hidden`);
+      bigPicture.querySelector(`.big-picture__imgsrc`).src = template[i].url;
+      bigPicture.querySelector(`.likes-count`).textContent = template[i].likes;
+      bigPicture.querySelector(`.comments-count`).textContent = template[i].comments.length;
+      socialPicture.src = template[i].comments[0].avatar;
+      socialPicture.alt = template[i].comments[0].name;
+      bigPicture.querySelector(`.social__text`).textContent = template[i].description;
+    });
+  }
+  const bigPictureCancel = document.querySelector(`.big-picture__cancel`);
+  bigPictureCancel.addEventListener(`click`, () => {
+    bigPicture.classList.add(`hidden`);
+  });
+  document.addEventListener(`keydown`, (evt) => {
+    if (evt.key === `Escape`) {
+      evt.preventDefault();
+      bigPicture.classList.add(`hidden`);
+    }
+  });
 };
-bigPictureRender(renderedTemplate[0]);
+
+bigPictureRender();
+  //for (let i = 0; i < smallWindowPictures.length; i++) {
+
+      //bigPicture.classList.remove(`hidden`);1
+
+     // bigPicture.querySelector(`.big-picture__imgsrc`).src = nameElement.url;1
+      // bigPicture.querySelector(`.likes-count`).textContent = nameElement.likes;2
+      // bigPicture.querySelector(`.comments-count`).textContent = nameElement.comments.length;3
+      // socialPicture.src = nameElement.comments[0].avatar;
+      // socialPicture.alt = nameElement.comments[0].name;
+      // bigPicture.querySelector(`.social__text`).textContent = nameElement.description;
+      //bigPictureRender(renderedTemplate[i]);
+
+ // }
+
+
 
 const fotoLoad = () => {
   uploadFile.addEventListener(`change`, function () {
@@ -321,3 +354,14 @@ hastag.addEventListener(`input`, () => {
   }
 });
 
+const MAX_COMMENT_LENGTH = 140;
+const comentFoto = document.querySelector(`.text__description`);
+comentFoto.addEventListener(`input`, () => {
+  const valueLength = comentFoto.value.length;
+  console.log(valueLength);
+  if (MAX_COMMENT_LENGTH < valueLength) {
+    comentFoto.setCustomValidity(`максимальная длина коментария 140 символов`);
+  } else {
+    comentFoto.setCustomValidity(``);
+  }
+});
