@@ -1,6 +1,6 @@
 'use strict';
 const arrayEfects = [
-  ``,
+  `none`,
   `effects__preview--chrome`,
   `effects__preview--sepia`,
   `effects__preview--marvin`,
