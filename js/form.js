@@ -14,12 +14,13 @@ const effectLevelPin = window.imgUpload.querySelector(`.effect-level__pin`);
 const effectLevelDepth = window.imgUpload.querySelector(`.effect-level__depth`);
 const effectLevelValue = window.imgUpload.querySelector(`.effect-level__value`);
 let shift = 25;
-
+window.imgUploadEffectLevel.classList.add(`hidden`);
 (() => {
   const funDelEffects = () => {
     window.effectsRadio[0].addEventListener(`change`, () => {
       window.prewiewFoto.className = ``;
       window.imgUploadEffectLevel.classList.add(`hidden`);
+      window.prewiewFoto.style.filter = ``;
     });
   };
   for (let i = 0; i < window.effectsRadio.length; i++) {
