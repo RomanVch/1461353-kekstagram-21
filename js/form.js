@@ -95,7 +95,7 @@ let shift = 25;
     };
 
   })();
-  window.imgUploadEffectLevel.addEventListener(`mousemove`, () => {
+  document.addEventListener(`mousemove`, () => {
     const brightnessStep = 1 + (shift / 50);
     const effects = [
       ``,
