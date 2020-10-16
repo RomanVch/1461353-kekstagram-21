@@ -1,21 +1,20 @@
 'use strict';
-const arrayEfects = [
-  `none`,
-  `effects__preview--chrome`,
-  `effects__preview--sepia`,
-  `effects__preview--marvin`,
-  `effects__preview--phobos`,
-  `effects__preview--heat`,
-];
 
-
-const effectLevelLine = window.imgUpload.querySelector(`.effect-level__line`);
-const effectLevelPin = window.imgUpload.querySelector(`.effect-level__pin`);
-const effectLevelDepth = window.imgUpload.querySelector(`.effect-level__depth`);
-const effectLevelValue = window.imgUpload.querySelector(`.effect-level__value`);
-let shift = 25;
-window.imgUploadEffectLevel.classList.add(`hidden`);
 (() => {
+  const arrayEfects = [
+    `none`,
+    `effects__preview--chrome`,
+    `effects__preview--sepia`,
+    `effects__preview--marvin`,
+    `effects__preview--phobos`,
+    `effects__preview--heat`,
+  ];
+  const effectLevelLine = window.imgUpload.querySelector(`.effect-level__line`);
+  const effectLevelPin = window.imgUpload.querySelector(`.effect-level__pin`);
+  const effectLevelDepth = window.imgUpload.querySelector(`.effect-level__depth`);
+  const effectLevelValue = window.imgUpload.querySelector(`.effect-level__value`);
+  let shift = 25;
+  window.imgUploadEffectLevel.classList.add(`hidden`);
   const funDelEffects = () => {
     window.effectsRadio[0].addEventListener(`change`, () => {
       window.prewiewFoto.className = ``;
