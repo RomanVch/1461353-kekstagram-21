@@ -1,10 +1,9 @@
 'use strict';
 const NUMBER_BLOCK_IMG = 25;
 window.NUMBER_BLOCK_IMG = NUMBER_BLOCK_IMG;
-const bigPicture = document.querySelector(`.big-picture`);
-window.bigPicture = bigPicture;
-const socialCommentCount = bigPicture.querySelector(`.social__comment-count`);
-const commentsLoader = bigPicture.querySelector(`.comments-loader`);
+window.bigPicture = document.querySelector(`.big-picture`);
+const socialCommentCount = window.bigPicture.querySelector(`.social__comment-count`);
+const commentsLoader = window.bigPicture.querySelector(`.comments-loader`);
 const imgUpload = document.querySelector(`.img-upload`);
 window.imgUpload = imgUpload;
 const effectsRadio = imgUpload.querySelectorAll(`.effects__radio`);

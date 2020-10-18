@@ -1,22 +1,18 @@
 'use strict';
 const picturesContainer = document.querySelector(`.pictures`);
-const templatePicture = document.querySelector(`#picture`).content;
-const onSuccess = (data) => {
-  const renderBlockImg = (information) => {
-    const blockTemplatee = templatePicture.cloneNode(true);
-    blockTemplatee.querySelector(`.picture__img`).src = information.url;
-    blockTemplatee.querySelector(`.picture__likes`).textContent = information.likes;
-    blockTemplatee.querySelector(`.picture__comments`).textContent = information.comments.length;
-    return blockTemplatee;
-  };
-  const fragment = document.createDocumentFragment();
-  for (let i = 0; i < 25; i++) {
-    fragment.appendChild(renderBlockImg(data[i]));
-  }
-  picturesContainer.appendChild(fragment);
-};
-const onError = (error) => {
-  console.log(error);
-};
-window.load.load(onSuccess, onError);
 
+const onSuccess = (pictures) => {
+  pictures.forEach((picture) => {
+    const photo = window.renderPicture(picture);
+    photo.querySelector(`.picture__img`).addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      window.bigPictureRender(picture);
+      window.bigPicture.classList.remove(`hidden`);
+    });
+    picturesContainer.appendChild(photo);
+  });
+};
+
+window.load.load(onSuccess, (error) => {
+  console.log(error);
+});
