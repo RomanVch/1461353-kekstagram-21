@@ -2,8 +2,6 @@
 const NUMBER_BLOCK_IMG = 25;
 window.NUMBER_BLOCK_IMG = NUMBER_BLOCK_IMG;
 window.bigPicture = document.querySelector(`.big-picture`);
-const socialCommentCount = window.bigPicture.querySelector(`.social__comment-count`);
-const commentsLoader = window.bigPicture.querySelector(`.comments-loader`);
 const imgUpload = document.querySelector(`.img-upload`);
 window.imgUpload = imgUpload;
 const effectsRadio = imgUpload.querySelectorAll(`.effects__radio`);
@@ -12,8 +10,6 @@ const prewiewFoto = imgUpload.querySelector(`#prewiew__foto`);
 window.prewiewFoto = prewiewFoto;
 const imgUploadEffectLevel = imgUpload.querySelector(`.img-upload__effect-level`);
 window.imgUploadEffectLevel = imgUploadEffectLevel;
-socialCommentCount.classList.add(`hidden`);
-commentsLoader.classList.add(`hidden`);
 const randomNumber = (min, max) => {
   return (Math.random() * (max - min + 1)) + min;
 };

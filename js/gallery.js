@@ -7,6 +7,9 @@ const onSuccess = (pictures) => {
     photo.querySelector(`.picture__img`).addEventListener(`click`, (evt) => {
       evt.preventDefault();
       window.bigPictureRender(picture);
+      while (window.socialComments.children.length > 5) {
+        window.socialComments.removeChild(window.socialComments.lastChild);
+      }
       window.bigPicture.classList.remove(`hidden`);
     });
     picturesContainer.appendChild(photo);
@@ -16,3 +19,4 @@ const onSuccess = (pictures) => {
 window.load.load(onSuccess, (error) => {
   console.log(error);
 });
+
