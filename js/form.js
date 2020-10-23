@@ -1,5 +1,6 @@
 'use strict';
 (() => {
+  const imgUploadEffectLevel = window.main.imgUpload.querySelector(`.img-upload__effect-level`);
   const arrayEfects = [
     `none`,
     `effects__preview--chrome`,
@@ -8,25 +9,25 @@
     `effects__preview--phobos`,
     `effects__preview--heat`,
   ];
-  const effectLevelLine = window.imgUpload.querySelector(`.effect-level__line`);
-  const effectLevelPin = window.imgUpload.querySelector(`.effect-level__pin`);
-  const effectLevelDepth = window.imgUpload.querySelector(`.effect-level__depth`);
-  const effectLevelValue = window.imgUpload.querySelector(`.effect-level__value`);
+  const effectLevelLine = window.main.imgUpload.querySelector(`.effect-level__line`);
+  const effectLevelPin = window.main.imgUpload.querySelector(`.effect-level__pin`);
+  const effectLevelDepth = window.main.imgUpload.querySelector(`.effect-level__depth`);
+  const effectLevelValue = window.main.imgUpload.querySelector(`.effect-level__value`);
   let shift = 25;
-  window.imgUploadEffectLevel.classList.add(`hidden`);
+  imgUploadEffectLevel.classList.add(`hidden`);
   const funDelEffects = () => {
-    window.effectsRadio[0].addEventListener(`change`, () => {
-      window.prewiewFoto.className = ``;
-      window.imgUploadEffectLevel.classList.add(`hidden`);
-      window.prewiewFoto.style.filter = ``;
+    window.main.effectsRadio[0].addEventListener(`change`, () => {
+      window.main.prewiewFoto.className = ``;
+      imgUploadEffectLevel.classList.add(`hidden`);
+      window.main.prewiewFoto.style.filter = ``;
     });
   };
-  for (let i = 0; i < window.effectsRadio.length; i++) {
-    window.effectsRadio[i].addEventListener(`change`, () => {
+  for (let i = 0; i < window.main.effectsRadio.length; i++) {
+    window.main.effectsRadio[i].addEventListener(`change`, () => {
       funDelEffects();
-      window.prewiewFoto.className = ``;
-      window.imgUploadEffectLevel.classList.remove(`hidden`);
-      window.prewiewFoto.classList.add(arrayEfects[i]);
+      window.main.prewiewFoto.className = ``;
+      imgUploadEffectLevel.classList.remove(`hidden`);
+      window.main.prewiewFoto.classList.add(arrayEfects[i]);
       const effectsDef = [
         ``,
         `grayscale(1)`,
@@ -36,8 +37,8 @@
         `brightness(3)`,
       ];
       for (let y = 0; y < effectsDef.length; y++) {
-        if (window.prewiewFoto.classList.contains(arrayEfects[y])) {
-          window.prewiewFoto.style.filter = effectsDef[y];
+        if (window.main.prewiewFoto.classList.contains(arrayEfects[y])) {
+          window.main.prewiewFoto.style.filter = effectsDef[y];
         } else if (shift !== 100) {
           shift = 100;
           effectLevelPin.style.left = `100%`;
@@ -105,8 +106,8 @@
       `brightness(${brightnessStep})`,
     ];
     for (let i = 0; i < effects.length; i++) {
-      if (window.prewiewFoto.classList.contains(arrayEfects[i])) {
-        window.prewiewFoto.style.filter = effects[i];
+      if (window.main.prewiewFoto.classList.contains(arrayEfects[i])) {
+        window.main.prewiewFoto.style.filter = effects[i];
       }
     }
   });

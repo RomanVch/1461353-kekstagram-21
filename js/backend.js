@@ -16,7 +16,7 @@
     xhr.send();
   };
   const save = () => {};
-  window.load = {
+  window.backend = {
     load,
     save
   };

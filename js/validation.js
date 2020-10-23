@@ -1,7 +1,6 @@
 'use strict';
 (() => {
   const hastag = document.querySelector(`.text__hashtags`);
-  window.hastag = hastag;
   const hastagSymbolsReg = /^#[\w\dа-яА-Я]{1,}$/i;
   const regLong = /^#[a-zа-я-0-9]{0,20}$/i;
   const MAX_COMMENT_LENGTH = 140;
@@ -38,4 +37,7 @@
       comentFoto.setCustomValidity(``);
     }
   });
+  window.validation = {
+    hastag
+  };
 })();

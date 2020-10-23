@@ -3,7 +3,7 @@
   const body = document.body;
   const uploadFile = document.querySelector(`#upload-file`);
   const imgUploadOverlay = document.querySelector(`.img-upload__overlay`);
-  const upLoadCancel = window.imgUpload.querySelector(`#upload-cancel`);
+  const upLoadCancel = window.main.imgUpload.querySelector(`#upload-cancel`);
   (() => {
     uploadFile.addEventListener(`change`, function () {
       imgUploadOverlay.classList.remove(`hidden`);
@@ -17,7 +17,7 @@
       body.classList.remove(`modal-open`);
     });
     document.addEventListener(`keydown`, function (evt) {
-      if (document.activeElement !== window.hastag && evt.key === `Escape`) {
+      if (document.activeElement !== window.validation.hastag && evt.key === `Escape`) {
         evt.preventDefault();
         imgUploadOverlay.classList.add(`hidden`);
         uploadFile.value = ``;
