@@ -2,40 +2,40 @@
 (()=>{
   const SHOWN_COMMENTS = 5;
 
-  const bigPictureCancel = document.querySelector(`.big-picture__cancel`);
-  const templatePicture = document.querySelector(`#picture`).content;
-  const socialComments = window.main.bigPicture.querySelector(`.social__comments`);
-  const commentsLoader = window.main.bigPicture.querySelector(`.comments-loader`);
-  const commentsCount = window.main.bigPicture.querySelector(`.comments-count`);
-  const socialCommentCount = window.main.bigPicture.querySelector(`.social__comment-count`);
-  let pictureData = null;
-  let shownPictures = 5;
-  let PicturesQuantity = 5;
+  const buttonClosure = document.querySelector(`.big-picture__cancel`);
+  const sampleBigPicture = document.querySelector(`#picture`).content;
+  const listComments = window.main.bigPicture.querySelector(`.social__comments`);
+  const buttonLoadComments = window.main.bigPicture.querySelector(`.comments-loader`);
+  const maximumComments = window.main.bigPicture.querySelector(`.comments-count`);
+  const quantityComment = window.main.bigPicture.querySelector(`.social__comment-count`);
+  let gettingServerInformation = null;
+  let postingImpressionsComment = 5;
+  let picturesAdding = 5;
   const onCommentsLoaderClick = () => {
-    PicturesQuantity = PicturesQuantity + 5;
-    for (let i = SHOWN_COMMENTS; i < PicturesQuantity; i++) {
+    picturesAdding = picturesAdding + 5;
+    for (let i = SHOWN_COMMENTS; i < picturesAdding; i++) {
 
-      if (shownPictures < pictureData.comments.length) {
+      if (postingImpressionsComment < gettingServerInformation.comments.length) {
         const comment = renderComment({
-          avatar: pictureData.comments[i].avatar,
-          message: pictureData.comments[i].message
+          avatar: gettingServerInformation.comments[i].avatar,
+          message: gettingServerInformation.comments[i].message
         });
-        socialComments.appendChild(comment);
-        shownPictures = shownPictures + 1;
-        socialCommentCount.textContent = shownPictures + ` из ` + pictureData.comments.length + ` комментариев`;
+        listComments.appendChild(comment);
+        postingImpressionsComment = postingImpressionsComment + 1;
+        quantityComment.textContent = postingImpressionsComment + ` из ` + gettingServerInformation.comments.length + ` комментариев`;
       } else {
-        commentsLoader.classList.add(`hidden`);
+        buttonLoadComments.classList.add(`hidden`);
       }
     }
-
+    picturesAdding = 5;
   };
 
   const hideBigPicture = () => {
     window.main.bigPicture.classList.add(`hidden`);
-    commentsLoader.classList.remove(`hidden`);
-    commentsLoader.removeEventListener(`click`, onCommentsLoaderClick);
-    shownPictures = 5;
-    PicturesQuantity = 5;
+    buttonLoadComments.classList.remove(`hidden`);
+    buttonLoadComments.removeEventListener(`click`, onCommentsLoaderClick);
+    postingImpressionsComment = 5;
+    picturesAdding = 5;
   };
 
   const renderComment = (comment) => {
@@ -56,7 +56,7 @@
     return listItem;
   };
 
-  bigPictureCancel.addEventListener(`click`, () => {
+  buttonClosure.addEventListener(`click`, () => {
     hideBigPicture();
   });
 
@@ -68,7 +68,7 @@
   });
 
   const renderPicture = (picture) => {
-    const blockTemplatee = templatePicture.cloneNode(true);
+    const blockTemplatee = sampleBigPicture.cloneNode(true);
     blockTemplatee.querySelector(`.picture__img`).src = picture.url;
     blockTemplatee.querySelector(`.picture__likes`).textContent = picture.likes;
     blockTemplatee.querySelector(`.picture__comments`).textContent = picture.comments.length;
@@ -76,8 +76,8 @@
   };
 
   const bigPictureRender = (picture) => {
-    socialComments.innerHTML = ``;
-    pictureData = picture;
+    listComments.innerHTML = ``;
+    gettingServerInformation = picture;
 
     const description = window.main.bigPicture.querySelector(`.social__caption`);
     const mainPicture = window.main.bigPicture.querySelector(`.big-picture__imgsrc`);
@@ -86,35 +86,34 @@
     description.textContent = picture.description;
     mainPicture.src = picture.url;
     likesCount.textContent = picture.likes;
-    commentsCount.textContent = picture.comments.length;
+    maximumComments.textContent = picture.comments.length;
 
-    if (pictureData.comments.length > SHOWN_COMMENTS) {
+    if (gettingServerInformation.comments.length > SHOWN_COMMENTS) {
       for (let i = 0; i < SHOWN_COMMENTS; i++) {
         const comment = renderComment({
           avatar: picture.comments[i].avatar,
           message: picture.comments[i].message
         });
-        socialCommentCount.textContent = 5 + ` из ` + picture.comments.length + ` комментариев`;
-        socialComments.appendChild(comment);
+        quantityComment.textContent = 5 + ` из ` + picture.comments.length + ` комментариев`;
+        listComments.appendChild(comment);
       }
     } else {
-      for (let i = 0; i < pictureData.comments.length; i++) {
+      for (let i = 0; i < gettingServerInformation.comments.length; i++) {
         const comment = renderComment({
           avatar: picture.comments[i].avatar,
           message: picture.comments[i].message
         });
-        socialCommentCount.textContent = pictureData.comments.length
+        quantityComment.textContent = gettingServerInformation.comments.length
          + ` из ` + picture.comments.length + ` комментариев`;
-        socialComments.appendChild(comment);
-        commentsLoader.classList.add(`hidden`);
+        listComments.appendChild(comment);
+        buttonLoadComments.classList.add(`hidden`);
       }
     }
 
-    commentsLoader.addEventListener(`click`, onCommentsLoaderClick);
+    buttonLoadComments.addEventListener(`click`, onCommentsLoaderClick);
   };
 
   window.render = {
-    socialComments,
     renderPicture,
     bigPictureRender
   };
