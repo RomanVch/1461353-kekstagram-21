@@ -1,6 +1,6 @@
 'use strict';
 (()=>{
-  const SHOWN_COMMENTS = 5;
+  let showComments = 5;
 
   const buttonClosure = document.querySelector(`.big-picture__cancel`);
   const sampleBigPicture = document.querySelector(`#picture`).content;
@@ -13,12 +13,12 @@
   let picturesAdding = 5;
   const onCommentsLoaderClick = () => {
     picturesAdding = picturesAdding + 5;
-    for (let i = SHOWN_COMMENTS; i < picturesAdding; i++) {
-
+    for (showComments; showComments < picturesAdding; showComments++) {
+console.log(showComments);
       if (postingImpressionsComment < gettingServerInformation.comments.length) {
         const comment = renderComment({
-          avatar: gettingServerInformation.comments[i].avatar,
-          message: gettingServerInformation.comments[i].message
+          avatar: gettingServerInformation.comments[showComments].avatar,
+          message: gettingServerInformation.comments[showComments].message
         });
         listComments.appendChild(comment);
         postingImpressionsComment = postingImpressionsComment + 1;
@@ -27,7 +27,7 @@
         buttonLoadComments.classList.add(`hidden`);
       }
     }
-    picturesAdding = 5;
+
   };
 
   const hideBigPicture = () => {
@@ -36,6 +36,7 @@
     buttonLoadComments.removeEventListener(`click`, onCommentsLoaderClick);
     postingImpressionsComment = 5;
     picturesAdding = 5;
+    showComments = 5;
   };
 
   const renderComment = (comment) => {
@@ -88,8 +89,8 @@
     likesCount.textContent = picture.likes;
     maximumComments.textContent = picture.comments.length;
 
-    if (gettingServerInformation.comments.length > SHOWN_COMMENTS) {
-      for (let i = 0; i < SHOWN_COMMENTS; i++) {
+    if (gettingServerInformation.comments.length > showComments) {
+      for (let i = 0; i < showComments; i++) {
         const comment = renderComment({
           avatar: picture.comments[i].avatar,
           message: picture.comments[i].message
