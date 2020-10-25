@@ -25,6 +25,7 @@ console.log(showComments);
         quantityComment.textContent = postingImpressionsComment + ` из ` + gettingServerInformation.comments.length + ` комментариев`;
       } else {
         buttonLoadComments.classList.add(`hidden`);
+        break;
       }
     }
 
