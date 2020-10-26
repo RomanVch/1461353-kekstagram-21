@@ -11,24 +11,25 @@
   let gettingServerInformation = null;
   let postingImpressionsComment = 5;
   let picturesAdding = 5;
+  const getComentsInfo = (way)=>{
+    const comment = renderComment({
+      avatar: way.avatar,
+      message: way.message
+    });
+    listComments.appendChild(comment);
+  };
   const onCommentsLoaderClick = () => {
     picturesAdding = picturesAdding + 5;
     for (showComments; showComments < picturesAdding; showComments++) {
-console.log(showComments);
       if (postingImpressionsComment < gettingServerInformation.comments.length) {
-        const comment = renderComment({
-          avatar: gettingServerInformation.comments[showComments].avatar,
-          message: gettingServerInformation.comments[showComments].message
-        });
-        listComments.appendChild(comment);
+        getComentsInfo(gettingServerInformation.comments[showComments]);
         postingImpressionsComment = postingImpressionsComment + 1;
-        quantityComment.textContent = postingImpressionsComment + ` из ` + gettingServerInformation.comments.length + ` комментариев`;
+        quantityComment.textContent = `${postingImpressionsComment} из ${gettingServerInformation.comments.length} комментариев`;
       } else {
         buttonLoadComments.classList.add(`hidden`);
         break;
       }
     }
-
   };
 
   const hideBigPicture = () => {
@@ -90,24 +91,18 @@ console.log(showComments);
     likesCount.textContent = picture.likes;
     maximumComments.textContent = picture.comments.length;
 
-    if (gettingServerInformation.comments.length > showComments) {
-      for (let i = 0; i < showComments; i++) {
-        const comment = renderComment({
-          avatar: picture.comments[i].avatar,
-          message: picture.comments[i].message
-        });
-        quantityComment.textContent = 5 + ` из ` + picture.comments.length + ` комментариев`;
-        listComments.appendChild(comment);
-      }
-    } else {
-      for (let i = 0; i < gettingServerInformation.comments.length; i++) {
-        const comment = renderComment({
-          avatar: picture.comments[i].avatar,
-          message: picture.comments[i].message
-        });
-        quantityComment.textContent = gettingServerInformation.comments.length
-         + ` из ` + picture.comments.length + ` комментариев`;
-        listComments.appendChild(comment);
+
+    for (let i = 0; i < gettingServerInformation.comments.length; i++) {
+      if (gettingServerInformation.comments.length > showComments) {
+        getComentsInfo(picture.comments[i]);
+        quantityComment.textContent = `5 из ${picture.comments.length} комментариев`;
+        if (i === 5) {
+          break;
+        }
+      } else {
+        getComentsInfo(picture.comments[i]);
+        quantityComment.textContent = `${gettingServerInformation.comments.length}
+         из ${picture.comments.length} комментариев`;
         buttonLoadComments.classList.add(`hidden`);
       }
     }
