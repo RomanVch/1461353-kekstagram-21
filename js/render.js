@@ -1,7 +1,7 @@
 'use strict';
 (()=>{
   let showComments = 5;
-
+  const RENDER_STOP_INDEX = 4;
   const buttonClosure = document.querySelector(`.big-picture__cancel`);
   const sampleBigPicture = document.querySelector(`#picture`).content;
   const listComments = window.main.bigPicture.querySelector(`.social__comments`);
@@ -96,7 +96,7 @@
       if (gettingServerInformation.comments.length > showComments) {
         getComentsInfo(picture.comments[i]);
         quantityComment.textContent = `5 из ${picture.comments.length} комментариев`;
-        if (i === 5) {
+        if (i === RENDER_STOP_INDEX) {
           break;
         }
       } else {
