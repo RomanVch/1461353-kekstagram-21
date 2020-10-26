@@ -1,9 +1,9 @@
 'use strict';
-const scaleControlSmaller = window.imgUpload.querySelector(`.scale__control--smaller`);
-const scaleControlBigger = window.imgUpload.querySelector(`.scale__control--bigger`);
-const scaleControlValue = window.imgUpload.querySelector(`.scale__control--value`);
-const imgUploadPreview = window.imgUpload.querySelector(`.img-upload__preview`);
 (() => {
+  const scaleControlSmaller = window.main.imgUpload.querySelector(`.scale__control--smaller`);
+  const scaleControlBigger = window.main.imgUpload.querySelector(`.scale__control--bigger`);
+  const scaleControlValue = window.main.imgUpload.querySelector(`.scale__control--value`);
+  const imgUploadPreview = window.main.imgUpload.querySelector(`.img-upload__preview`);
   let j = 100;
   (() => {
     const funScaleSmall = () => {
