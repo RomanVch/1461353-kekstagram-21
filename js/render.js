@@ -92,8 +92,8 @@
     maximumComments.textContent = picture.comments.length;
 
 
-    for (let i = 0; i < gettingServerInformation.comments.length; i++) {
-      if (gettingServerInformation.comments.length > showComments) {
+    for (let i = 0; i < picture.comments.length; i++) {
+      if (picture.comments.length > showComments) {
         getComentsInfo(picture.comments[i]);
         quantityComment.textContent = `5 из ${picture.comments.length} комментариев`;
         if (i === RENDER_STOP_INDEX) {
@@ -101,7 +101,7 @@
         }
       } else {
         getComentsInfo(picture.comments[i]);
-        quantityComment.textContent = `${gettingServerInformation.comments.length}
+        quantityComment.textContent = `${picture.comments.length}
          из ${picture.comments.length} комментариев`;
         buttonLoadComments.classList.add(`hidden`);
       }
