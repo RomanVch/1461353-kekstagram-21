@@ -25,4 +25,8 @@
       }
     });
   })();
+  window.picture = {
+    imgUploadOverlay,
+    body
+  };
 })();

@@ -111,4 +111,7 @@
       }
     }
   });
+  window.form = {
+    imgUploadEffectLevel,
+  };
 })();

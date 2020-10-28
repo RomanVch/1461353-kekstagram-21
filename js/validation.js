@@ -38,6 +38,7 @@
     }
   });
   window.validation = {
-    hastag
+    hastag,
+    comentFoto
   };
 })();
