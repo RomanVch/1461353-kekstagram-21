@@ -77,6 +77,7 @@
       slider.shift = parseInt((currentX - scaleMin) * 100 / (scaleMax - scaleMin), 10);
       effectLevelPin.style.left = `${shift}%`;
       effectLevelDepth.style.width = `${shift}%`;
+      effectLevelValue.value = shift;
     }
 
     // функция обработки mouseup при перетягивании ползунка

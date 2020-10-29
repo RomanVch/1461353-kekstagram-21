@@ -1,6 +1,6 @@
 'use strict';
 (()=>{
-  const statusCode = {
+  const StatusCode = {
     OK: 200
   };
   const load = (onSuccess, onError) => {
@@ -25,23 +25,21 @@
     xhr.open(`POST`, urlGet);
 
     xhr.addEventListener(`load`, () => {
-      if (xhr.status === statusCode.OK) {
+      if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
         onError(xhr.status);
       }
     });
-    xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+    xhr.addEventListener(`error`, function () {
+      onError(`Произошла ошибка соединения`);
     });
 
     xhr.send(data);
   };
-  const save = () => {};
   window.backend = {
     load,
-    send,
-    save
+    send
   };
 })();
 

@@ -14,7 +14,16 @@
     upLoadCancel.addEventListener(`click`, function () {
       imgUploadOverlay.classList.add(`hidden`);
       uploadFile.value = ``;
+      window.send.j = 100;
       body.classList.remove(`modal-open`);
+      window.prewiew.imgUploadPreview.style.transform = `scale(1)`;
+      window.main.effectsRadio[0].checked = true;
+      window.validation.hastag.value = ``;
+      window.validation.comentFoto.value = ``;
+      window.main.prewiewFoto.style.filter = ``;
+      window.main.prewiewFoto.className = ``;
+      window.form.imgUploadEffectLevel.classList.add(`hidden`);
+      window.picture.imgUploadOverlay.classList.add(`hidden`);
     });
     document.addEventListener(`keydown`, function (evt) {
       if (document.activeElement !== window.validation.hastag && evt.key === `Escape`) {
@@ -27,6 +36,6 @@
   })();
   window.picture = {
     imgUploadOverlay,
-    body
+    uploadFile
   };
 })();

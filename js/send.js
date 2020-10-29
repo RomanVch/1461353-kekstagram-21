@@ -3,8 +3,10 @@
   const imgUploadInput = document.querySelector(`.img-upload__input`);
   const main = document.querySelector(`main`);
   const form = document.querySelector(`.img-upload__form`);
+  let j = 100;
   const initialSettings = (way)=>{
     window.prewiew.imgUploadPreview.style.transform = `scale(1)`;
+    window.send.j = 100;
     window.main.effectsRadio[0].checked = true;
     window.validation.hastag.value = ``;
     window.validation.comentFoto.value = ``;
@@ -13,6 +15,8 @@
     window.form.imgUploadEffectLevel.classList.add(`hidden`);
     imgUploadInput.value = ``;
     window.picture.imgUploadOverlay.classList.add(`hidden`);
+    window.picture.uploadFile.value = ``;
+    window.prewiew.scaleControlValue.value = `100%`;
     main.appendChild(way.content);
   };
   const onSuccess = () => {
@@ -55,4 +59,7 @@
     evt.preventDefault();
     window.backend.send(new FormData(form), onSuccess, onError);
   });
+  window.send = {
+    j
+  };
 })();
