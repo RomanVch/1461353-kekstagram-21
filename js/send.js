@@ -3,10 +3,10 @@
   const imgUploadInput = document.querySelector(`.img-upload__input`);
   const main = document.querySelector(`main`);
   const form = document.querySelector(`.img-upload__form`);
-  let j = 100;
-  const initialSettings = (way)=>{
-    window.prewiew.imgUploadPreview.style.transform = `scale(1)`;
-    window.send.j = 100;
+  let valueZoom = 100;
+  const initialSettings = ()=>{
+    window.form.imgUploadPreview.style.transform = `scale(1)`;
+    window.send.valueZoom = 100;
     window.main.effectsRadio[0].checked = true;
     window.validation.hastag.value = ``;
     window.validation.comentFoto.value = ``;
@@ -16,12 +16,13 @@
     imgUploadInput.value = ``;
     window.picture.imgUploadOverlay.classList.add(`hidden`);
     window.picture.uploadFile.value = ``;
-    window.prewiew.scaleControlValue.value = `100%`;
-    main.appendChild(way.content);
+    window.form.scaleControlValue.value = `100%`;
+    window.form.effectLevelValue.value = `100`;
   };
   const onSuccess = () => {
     const successMessage = document.querySelector(`#success`);
-    initialSettings(successMessage);
+    initialSettings();
+    main.appendChild(successMessage.content);
     const successInner = main.querySelector(`.success`);
     const successButton = successInner.querySelector(`.success__button`);
     successInner.classList.remove(`hidden`);
@@ -30,7 +31,8 @@
   };
   const onError = ()=>{
     const erorrMessage = document.querySelector(`#error`);
-    initialSettings(erorrMessage);
+    initialSettings();
+    main.appendChild(erorrMessage.content);
     window.picture.imgUploadOverlay.classList.add(`hidden`);
     const errorWindow = main.querySelector(`.error`);
     const errorButton = errorWindow.querySelector(`.error__button`);
@@ -60,6 +62,7 @@
     window.backend.send(new FormData(form), onSuccess, onError);
   });
   window.send = {
-    j
+    valueZoom,
+    initialSettings
   };
 })();
