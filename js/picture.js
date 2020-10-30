@@ -12,17 +12,19 @@
   })();
   (() => {
     upLoadCancel.addEventListener(`click`, function () {
-      imgUploadOverlay.classList.add(`hidden`);
-      uploadFile.value = ``;
+      window.send.initialSettings();
       body.classList.remove(`modal-open`);
     });
     document.addEventListener(`keydown`, function (evt) {
       if (document.activeElement !== window.validation.hastag && evt.key === `Escape`) {
         evt.preventDefault();
-        imgUploadOverlay.classList.add(`hidden`);
-        uploadFile.value = ``;
+        window.send.initialSettings();
         body.classList.remove(`modal-open`);
       }
     });
   })();
+  window.picture = {
+    imgUploadOverlay,
+    uploadFile
+  };
 })();

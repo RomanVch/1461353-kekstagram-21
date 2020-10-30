@@ -15,6 +15,46 @@
   const effectLevelValue = window.main.imgUpload.querySelector(`.effect-level__value`);
   let shift = 25;
   imgUploadEffectLevel.classList.add(`hidden`);
+  const scaleControlSmaller = window.main.imgUpload.querySelector(`.scale__control--smaller`);
+  const scaleControlBigger = window.main.imgUpload.querySelector(`.scale__control--bigger`);
+  const scaleControlValue = window.main.imgUpload.querySelector(`.scale__control--value`);
+  const imgUploadPreview = window.main.imgUpload.querySelector(`.img-upload__preview`);
+  (() => {
+    const funScaleSmall = () => {
+      if (window.send.valueZoom > 26) {
+        window.send.valueZoom = window.send.valueZoom - 25;
+        scaleControlValue.value = window.send.valueZoom + `%`;
+        imgUploadPreview.style.transform = `scale(${window.send.valueZoom / 100})`;
+      } else {
+        window.send.valueZoom = 25;
+        scaleControlValue.value = window.send.valueZoom + `%`;
+        imgUploadPreview.style.transform = `scale(${window.send.valueZoom / 100})`;
+      }
+    };
+
+
+    const funScaleBig = () => {
+      if (window.send.valueZoom < 100) {
+        window.send.valueZoom = window.send.valueZoom + 25;
+        scaleControlValue.value = window.send.valueZoom + `%`;
+        imgUploadPreview.style.transform = `scale(${window.send.valueZoom / 100})`;
+      } else {
+        window.send.valueZoom = 100;
+        scaleControlValue.value = window.send.valueZoom + `%`;
+        imgUploadPreview.style.transform = `scale(${window.send.valueZoom / 100})`;
+      }
+    };
+
+
+    scaleControlSmaller.addEventListener(`click`, function () {
+      funScaleSmall();
+    });
+
+    scaleControlBigger.addEventListener(`click`, function () {
+      funScaleBig();
+
+    });
+  })();
   const funDelEffects = () => {
     window.main.effectsRadio[0].addEventListener(`change`, () => {
       window.main.prewiewFoto.className = ``;
@@ -77,6 +117,7 @@
       slider.shift = parseInt((currentX - scaleMin) * 100 / (scaleMax - scaleMin), 10);
       effectLevelPin.style.left = `${shift}%`;
       effectLevelDepth.style.width = `${shift}%`;
+      effectLevelValue.value = shift;
     }
 
     // функция обработки mouseup при перетягивании ползунка
@@ -111,4 +152,10 @@
       }
     }
   });
+  window.form = {
+    imgUploadEffectLevel,
+    effectLevelValue,
+    imgUploadPreview,
+    scaleControlValue
+  };
 })();
