@@ -60,7 +60,7 @@
     document.body.insertAdjacentElement(`afterbegin`, node);
   });
   // рандом рендер
-  const onRandomFiltr = () => {
+  const onButtonRandomFiltr = () => {
     for (let i = 0; i < pictureList.length; i++) {
       randomList.push(pictureList[Math.floor(randomNumber(MIN_NUMBER_PHOTOS, MAX_NUMBER_PHOTOS))]);
       uniqRandomList = [...new Set(randomList)];
@@ -73,7 +73,7 @@
     randomList = [];
   };
   // по умолчанию
-  const onDefaultFiltr = () => {
+  const onButtonDefaultFiltr = () => {
     renderFiltres(pictureList, pictureList.length);
     randomButton.classList.remove(`img-filters__button--active`);
     defaultButton.classList.add(`img-filters__button--active`);
@@ -81,7 +81,7 @@
   };
 
   // фильтр по количеству коментариев
-  const onCommentsSort = ()=>{
+  const onButtonCommentsFiltr = ()=>{
     sortPictureList.sort((a, b)=>{
       return b.comments.length - a.comments.length;
     });
@@ -90,7 +90,7 @@
     defaultButton.classList.remove(`img-filters__button--active`);
     commentsSortButton.classList.add(`img-filters__button--active`);
   };
-  randomButton.addEventListener(`click`, window.debounce(onRandomFiltr));
-  defaultButton.addEventListener(`click`, window.debounce(onDefaultFiltr));
-  commentsSortButton.addEventListener(`click`, window.debounce(onCommentsSort));
+  randomButton.addEventListener(`click`, window.debounce(onButtonRandomFiltr));
+  defaultButton.addEventListener(`click`, window.debounce(onButtonDefaultFiltr));
+  commentsSortButton.addEventListener(`click`, window.debounce(onButtonCommentsFiltr));
 })();
