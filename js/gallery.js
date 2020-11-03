@@ -10,8 +10,6 @@
   let uniqRandomList = [];
   let sortPictureList = [];
   const RENDER_RANDOM_NUMBER = 10;
-  const MIN_NUMBER_PHOTOS = 0;
-  const CORRECTOR_NUMBER_PHOTOS = 1;
   const renderFiltres = (list, listLength)=>{
     const photoDom = document.querySelectorAll(`.picture`);
     for (let i = 0; i < photoDom.length; i++) {
@@ -62,7 +60,7 @@
   // рандом рендер
   const onButtonRandomFiltr = () => {
     for (let i = 0; i < pictureList.length; i++) {
-      randomList.push(pictureList[Math.floor(randomNumber(MIN_NUMBER_PHOTOS, pictureList.length - CORRECTOR_NUMBER_PHOTOS))]);
+      randomList.push(pictureList[Math.floor(randomNumber(0, pictureList.length - 1))]);
       uniqRandomList = [...new Set(randomList)];
     }
     renderFiltres(uniqRandomList, RENDER_RANDOM_NUMBER);
