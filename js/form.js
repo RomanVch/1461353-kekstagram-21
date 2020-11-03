@@ -1,6 +1,9 @@
 'use strict';
 (() => {
-  const imgUploadEffectLevel = window.main.imgUpload.querySelector(`.img-upload__effect-level`);
+  const imgUpload = document.querySelector(`.img-upload`);
+  const imgUploadEffectLevel = imgUpload.querySelector(`.img-upload__effect-level`);
+  const effectsRadio = imgUpload.querySelectorAll(`.effects__radio`);
+  const prewiewFoto = imgUpload.querySelector(`#prewiew__foto`);
   const arrayEfects = [
     `none`,
     `effects__preview--chrome`,
@@ -9,65 +12,65 @@
     `effects__preview--phobos`,
     `effects__preview--heat`,
   ];
-  const effectLevelLine = window.main.imgUpload.querySelector(`.effect-level__line`);
-  const effectLevelPin = window.main.imgUpload.querySelector(`.effect-level__pin`);
-  const effectLevelDepth = window.main.imgUpload.querySelector(`.effect-level__depth`);
-  const effectLevelValue = window.main.imgUpload.querySelector(`.effect-level__value`);
+  const effectLevelLine = imgUpload.querySelector(`.effect-level__line`);
+  const effectLevelPin = imgUpload.querySelector(`.effect-level__pin`);
+  const effectLevelDepth = imgUpload.querySelector(`.effect-level__depth`);
+  const effectLevelValue = imgUpload.querySelector(`.effect-level__value`);
   let shift = 25;
   imgUploadEffectLevel.classList.add(`hidden`);
-  const scaleControlSmaller = window.main.imgUpload.querySelector(`.scale__control--smaller`);
-  const scaleControlBigger = window.main.imgUpload.querySelector(`.scale__control--bigger`);
-  const scaleControlValue = window.main.imgUpload.querySelector(`.scale__control--value`);
-  const imgUploadPreview = window.main.imgUpload.querySelector(`.img-upload__preview`);
-  (() => {
-    const funScaleSmall = () => {
-      if (window.send.valueZoom > 26) {
-        window.send.valueZoom = window.send.valueZoom - 25;
-        scaleControlValue.value = window.send.valueZoom + `%`;
-        imgUploadPreview.style.transform = `scale(${window.send.valueZoom / 100})`;
-      } else {
-        window.send.valueZoom = 25;
-        scaleControlValue.value = window.send.valueZoom + `%`;
-        imgUploadPreview.style.transform = `scale(${window.send.valueZoom / 100})`;
-      }
-    };
+  const scaleControlSmaller = imgUpload.querySelector(`.scale__control--smaller`);
+  const scaleControlBigger = imgUpload.querySelector(`.scale__control--bigger`);
+  const scaleControlValue = imgUpload.querySelector(`.scale__control--value`);
+  const imgUploadPreview = imgUpload.querySelector(`.img-upload__preview`);
+
+  const funScaleSmall = () => {
+    if (window.send.valueZoom > 26) {
+      window.send.valueZoom = window.send.valueZoom - 25;
+      scaleControlValue.value = window.send.valueZoom + `%`;
+      imgUploadPreview.style.transform = `scale(${window.send.valueZoom / 100})`;
+    } else {
+      window.send.valueZoom = 25;
+      scaleControlValue.value = window.send.valueZoom + `%`;
+      imgUploadPreview.style.transform = `scale(${window.send.valueZoom / 100})`;
+    }
+  };
 
 
-    const funScaleBig = () => {
-      if (window.send.valueZoom < 100) {
-        window.send.valueZoom = window.send.valueZoom + 25;
-        scaleControlValue.value = window.send.valueZoom + `%`;
-        imgUploadPreview.style.transform = `scale(${window.send.valueZoom / 100})`;
-      } else {
-        window.send.valueZoom = 100;
-        scaleControlValue.value = window.send.valueZoom + `%`;
-        imgUploadPreview.style.transform = `scale(${window.send.valueZoom / 100})`;
-      }
-    };
+  const funScaleBig = () => {
+    if (window.send.valueZoom < 100) {
+      window.send.valueZoom = window.send.valueZoom + 25;
+      scaleControlValue.value = window.send.valueZoom + `%`;
+      imgUploadPreview.style.transform = `scale(${window.send.valueZoom / 100})`;
+    } else {
+      window.send.valueZoom = 100;
+      scaleControlValue.value = window.send.valueZoom + `%`;
+      imgUploadPreview.style.transform = `scale(${window.send.valueZoom / 100})`;
+    }
+  };
 
 
-    scaleControlSmaller.addEventListener(`click`, function () {
-      funScaleSmall();
-    });
+  scaleControlSmaller.addEventListener(`click`, () => {
+    funScaleSmall();
+  });
 
-    scaleControlBigger.addEventListener(`click`, function () {
-      funScaleBig();
+  scaleControlBigger.addEventListener(`click`, () => {
+    funScaleBig();
 
-    });
-  })();
-  const funDelEffects = () => {
-    window.main.effectsRadio[0].addEventListener(`change`, () => {
-      window.main.prewiewFoto.className = ``;
+  });
+
+  const deleteEffects = () => {
+    effectsRadio[0].addEventListener(`change`, () => {
+      prewiewFoto.className = ``;
       imgUploadEffectLevel.classList.add(`hidden`);
-      window.main.prewiewFoto.style.filter = ``;
+      prewiewFoto.style.filter = ``;
     });
   };
-  for (let i = 0; i < window.main.effectsRadio.length; i++) {
-    window.main.effectsRadio[i].addEventListener(`change`, () => {
-      funDelEffects();
-      window.main.prewiewFoto.className = ``;
+  for (let i = 0; i < effectsRadio.length; i++) {
+    effectsRadio[i].addEventListener(`change`, () => {
+      deleteEffects();
+      prewiewFoto.className = ``;
       imgUploadEffectLevel.classList.remove(`hidden`);
-      window.main.prewiewFoto.classList.add(arrayEfects[i]);
+      prewiewFoto.classList.add(arrayEfects[i]);
       const effectsDef = [
         ``,
         `grayscale(1)`,
@@ -77,8 +80,8 @@
         `brightness(3)`,
       ];
       for (let y = 0; y < effectsDef.length; y++) {
-        if (window.main.prewiewFoto.classList.contains(arrayEfects[y])) {
-          window.main.prewiewFoto.style.filter = effectsDef[y];
+        if (prewiewFoto.classList.contains(arrayEfects[y])) {
+          prewiewFoto.style.filter = effectsDef[y];
         } else if (shift !== 100) {
           shift = 100;
           effectLevelPin.style.left = `100%`;
@@ -89,22 +92,18 @@
   }
 
 
-  const slider = (() => {
-
-
-    effectLevelPin.addEventListener(`mousedown`, onSliderPinActive);
-    effectLevelValue.addEventListener(`click`, onSliderPinMove);
+  const slider = () => {
 
     // функция обработки mousedown при перетягивании ползунка
 
-    function onSliderPinActive(evt) {
+    const onSliderPinActive = (evt) => {
       evt.preventDefault();
       document.addEventListener(`mousemove`, onSliderPinMove);
       document.addEventListener(`mouseup`, onSliderPinDrop);
-    }
+    };
 
     // функция обработки mousemove и рассчета положения ползунка в процентах
-    function onSliderPinMove(evt) {
+    const onSliderPinMove = (evt) => {
       const scaleMax = effectLevelLine.getBoundingClientRect().right;
       const scaleMin = effectLevelLine.getBoundingClientRect().left;
       let currentX = evt.clientX;
@@ -118,15 +117,18 @@
       effectLevelPin.style.left = `${shift}%`;
       effectLevelDepth.style.width = `${shift}%`;
       effectLevelValue.value = shift;
-    }
+    };
 
     // функция обработки mouseup при перетягивании ползунка
 
-    function onSliderPinDrop(evt) {
+    const onSliderPinDrop = (evt) => {
       evt.preventDefault();
       document.removeEventListener(`mousemove`, onSliderPinMove);
       document.removeEventListener(`mouseup`, onSliderPinDrop);
-    }
+    };
+
+    effectLevelPin.addEventListener(`mousedown`, onSliderPinActive);
+    effectLevelValue.addEventListener(`click`, onSliderPinMove);
 
 
     return {
@@ -135,7 +137,8 @@
       effectLevelDepth
     };
 
-  })();
+  };
+  slider();
   document.addEventListener(`mousemove`, () => {
     const brightnessStep = 1 + (shift / 50);
     const effects = [
@@ -147,8 +150,8 @@
       `brightness(${brightnessStep})`,
     ];
     for (let i = 0; i < effects.length; i++) {
-      if (window.main.prewiewFoto.classList.contains(arrayEfects[i])) {
-        window.main.prewiewFoto.style.filter = effects[i];
+      if (prewiewFoto.classList.contains(arrayEfects[i])) {
+        prewiewFoto.style.filter = effects[i];
       }
     }
   });
@@ -156,6 +159,11 @@
     imgUploadEffectLevel,
     effectLevelValue,
     imgUploadPreview,
-    scaleControlValue
+    scaleControlValue,
+    imgUpload,
+    effectsRadio,
+    prewiewFoto,
+    scaleControlSmaller,
+    funScaleSmall
   };
 })();

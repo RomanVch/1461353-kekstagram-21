@@ -7,11 +7,11 @@
   const initialSettings = ()=>{
     window.form.imgUploadPreview.style.transform = `scale(1)`;
     window.send.valueZoom = 100;
-    window.main.effectsRadio[0].checked = true;
+    window.form.effectsRadio[0].checked = true;
     window.validation.hastag.value = ``;
     window.validation.comentFoto.value = ``;
-    window.main.prewiewFoto.style.filter = ``;
-    window.main.prewiewFoto.className = ``;
+    window.form.prewiewFoto.style.filter = ``;
+    window.form.prewiewFoto.className = ``;
     window.form.imgUploadEffectLevel.classList.add(`hidden`);
     imgUploadInput.value = ``;
     window.picture.imgUploadOverlay.classList.add(`hidden`);
@@ -43,10 +43,12 @@
   const closeSuccesWindow = (way, button, sill)=>{
     button.addEventListener(`click`, () => {
       way.classList.add(`hidden`);
+      document.body.classList.remove(`modal-open`);
     });
     document.addEventListener(`keydown`, (evt) => {
       if (evt.key === `Escape`) {
         way.classList.add(`hidden`);
+        document.body.classList.remove(`modal-open`);
       }
     });
     document.addEventListener(`click`, (evt)=>{

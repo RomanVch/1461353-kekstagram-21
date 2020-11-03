@@ -2,12 +2,13 @@
 (()=>{
   let showComments = 5;
   const RENDER_STOP_INDEX = 4;
+  const bigPicture = document.querySelector(`.big-picture`);
   const buttonClosure = document.querySelector(`.big-picture__cancel`);
   const sampleBigPicture = document.querySelector(`#picture`).content;
-  const listComments = window.main.bigPicture.querySelector(`.social__comments`);
-  const buttonLoadComments = window.main.bigPicture.querySelector(`.comments-loader`);
-  const maximumComments = window.main.bigPicture.querySelector(`.comments-count`);
-  const quantityComment = window.main.bigPicture.querySelector(`.social__comment-count`);
+  const listComments = bigPicture.querySelector(`.social__comments`);
+  const buttonLoadComments = bigPicture.querySelector(`.comments-loader`);
+  const maximumComments = bigPicture.querySelector(`.comments-count`);
+  const quantityComment = bigPicture.querySelector(`.social__comment-count`);
   let gettingServerInformation = null;
   let postingImpressionsComment = 5;
   let picturesAdding = 5;
@@ -33,7 +34,7 @@
   };
 
   const hideBigPicture = () => {
-    window.main.bigPicture.classList.add(`hidden`);
+    bigPicture.classList.add(`hidden`);
     buttonLoadComments.classList.remove(`hidden`);
     buttonLoadComments.removeEventListener(`click`, onCommentsLoaderClick);
     postingImpressionsComment = 5;
@@ -69,7 +70,6 @@
       hideBigPicture();
     }
   });
-
   const renderPicture = (picture) => {
     const blockTemplatee = sampleBigPicture.cloneNode(true);
     blockTemplatee.querySelector(`.picture__img`).src = picture.url;
@@ -82,9 +82,9 @@
     listComments.innerHTML = ``;
     gettingServerInformation = picture;
 
-    const description = window.main.bigPicture.querySelector(`.social__caption`);
-    const mainPicture = window.main.bigPicture.querySelector(`.big-picture__imgsrc`);
-    const likesCount = window.main.bigPicture.querySelector(`.likes-count`);
+    const description = bigPicture.querySelector(`.social__caption`);
+    const mainPicture = bigPicture.querySelector(`.big-picture__imgsrc`);
+    const likesCount = bigPicture.querySelector(`.likes-count`);
 
     description.textContent = picture.description;
     mainPicture.src = picture.url;
@@ -112,6 +112,7 @@
 
   window.render = {
     renderPicture,
-    bigPictureRender
+    bigPictureRender,
+    bigPicture
   };
 })();

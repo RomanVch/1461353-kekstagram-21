@@ -31,7 +31,7 @@
         onError(xhr.status);
       }
     });
-    xhr.addEventListener(`error`, function () {
+    xhr.addEventListener(`error`, () => {
       onError(`Произошла ошибка соединения`);
     });
 
