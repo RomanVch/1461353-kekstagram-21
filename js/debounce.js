@@ -15,7 +15,4 @@
       }, DEBOUNCE_INTERVAL);
     };
   };
-  window.render = {
-    debounce
-  };
 })();

@@ -103,7 +103,7 @@
     };
 
     // функция обработки mousemove и рассчета положения ползунка в процентах
-    const onSliderPinMove= (evt) => {
+    const onSliderPinMove = (evt) => {
       const scaleMax = effectLevelLine.getBoundingClientRect().right;
       const scaleMin = effectLevelLine.getBoundingClientRect().left;
       let currentX = evt.clientX;
