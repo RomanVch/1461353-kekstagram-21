@@ -6,7 +6,7 @@
   const MAX_COMMENT_LENGTH = 140;
   const comentFoto = document.querySelector(`.text__description`);
 
-  hastag.addEventListener(`input`, () => {
+  const onInputValidationHastag = () => {
     const hashtagsSeparator = hastag.value.toLowerCase().split(` `);
     const uniqHastags = [...new Set(hashtagsSeparator)];
     for (let i = 0; i < hashtagsSeparator.length; i++) {
@@ -26,17 +26,21 @@
         hastag.setCustomValidity(``);
       }
     }
-  });
+  };
 
-
-  comentFoto.addEventListener(`input`, () => {
+  const onInputValidationComent = () => {
     const valueLength = comentFoto.value.length;
     if (MAX_COMMENT_LENGTH < valueLength) {
       comentFoto.setCustomValidity(`максимальная длина коментария 140 символов`);
     } else {
       comentFoto.setCustomValidity(``);
     }
-  });
+  };
+
+  hastag.addEventListener(`input`, onInputValidationHastag);
+
+  comentFoto.addEventListener(`input`, onInputValidationComent);
+
   window.validation = {
     hastag,
     comentFoto

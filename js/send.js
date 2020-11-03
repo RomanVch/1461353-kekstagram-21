@@ -41,28 +41,37 @@
     closeSuccesWindow(errorWindow, errorButton, errorWindowsill);
   };
   const closeSuccesWindow = (way, button, sill)=>{
-    button.addEventListener(`click`, () => {
+    const onButtonSuccesWindow = () => {
       way.classList.add(`hidden`);
       document.body.classList.remove(`modal-open`);
-    });
-    document.addEventListener(`keydown`, (evt) => {
+    };
+
+    const onKeySuccesWindow = (evt) => {
       if (evt.key === `Escape`) {
         way.classList.add(`hidden`);
         document.body.classList.remove(`modal-open`);
       }
-    });
-    document.addEventListener(`click`, (evt)=>{
+    };
+    const onClickFreeAreaSuccesWindow = (evt)=>{
       const isClickInside = sill.contains(evt.target);
       if (!isClickInside) {
         way.classList.add(`hidden`);
       }
-    });
+    };
+    button.addEventListener(`click`, onButtonSuccesWindow);
+
+    document.addEventListener(`keydown`, onKeySuccesWindow);
+
+    document.addEventListener(`click`, onClickFreeAreaSuccesWindow);
   };
 
-  form.addEventListener(`submit`, (evt)=>{
+  const onSubmitFormSend = (evt)=>{
     evt.preventDefault();
     window.backend.send(new FormData(form), onSuccess, onError);
-  });
+  };
+
+  form.addEventListener(`submit`, onSubmitFormSend);
+
   window.send = {
     valueZoom,
     initialSettings

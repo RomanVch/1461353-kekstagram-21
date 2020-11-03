@@ -5,23 +5,30 @@
   const imgUploadOverlay = document.querySelector(`.img-upload__overlay`);
   const upLoadCancel = window.form.imgUpload.querySelector(`#upload-cancel`);
 
-  uploadFile.addEventListener(`change`, () => {
+  const onButtonLoadFile = () => {
     imgUploadOverlay.classList.remove(`hidden`);
     body.classList.add(`modal-open`);
-  });
+  };
 
-  upLoadCancel.addEventListener(`click`, () => {
+  const onButtonCloseFormLoad = () => {
     window.send.initialSettings();
     body.classList.remove(`modal-open`);
-  });
+  };
 
-  document.addEventListener(`keydown`, (evt) => {
+  const onKeyCloseFormLoad = (evt) => {
     if (document.activeElement !== window.validation.hastag && evt.key === `Escape`) {
       evt.preventDefault();
       window.send.initialSettings();
       body.classList.remove(`modal-open`);
     }
-  });
+  };
+
+  uploadFile.addEventListener(`change`, onButtonLoadFile);
+
+  upLoadCancel.addEventListener(`click`, onButtonCloseFormLoad);
+
+  document.addEventListener(`keydown`, onKeyCloseFormLoad);
+
   window.picture = {
     imgUploadOverlay,
     uploadFile

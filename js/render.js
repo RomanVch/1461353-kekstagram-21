@@ -33,13 +33,20 @@
     }
   };
 
-  const hideBigPicture = () => {
+  const onButtonHideBigPicture = () => {
     bigPicture.classList.add(`hidden`);
     buttonLoadComments.classList.remove(`hidden`);
     buttonLoadComments.removeEventListener(`click`, onCommentsLoaderClick);
     postingImpressionsComment = 5;
     picturesAdding = 5;
     showComments = 5;
+  };
+
+  const onKeyHideBigPicture = (evt) => {
+    if (evt.key === `Escape`) {
+      evt.preventDefault();
+      onButtonHideBigPicture();
+    }
   };
 
   const renderComment = (comment) => {
@@ -60,16 +67,10 @@
     return listItem;
   };
 
-  buttonClosure.addEventListener(`click`, () => {
-    hideBigPicture();
-  });
+  buttonClosure.addEventListener(`click`, onButtonHideBigPicture);
 
-  document.addEventListener(`keydown`, (evt) => {
-    if (evt.key === `Escape`) {
-      evt.preventDefault();
-      hideBigPicture();
-    }
-  });
+  document.addEventListener(`keydown`, onKeyHideBigPicture);
+
   const renderPicture = (picture) => {
     const blockTemplatee = sampleBigPicture.cloneNode(true);
     blockTemplatee.querySelector(`.picture__img`).src = picture.url;
