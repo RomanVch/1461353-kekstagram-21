@@ -19,7 +19,7 @@
     });
     listComments.appendChild(comment);
   };
-  const onCommentsLoaderClick = () => {
+  const onCommentsLoadClick = () => {
     picturesAdding = picturesAdding + 5;
     for (showComments; showComments < picturesAdding; showComments++) {
       if (postingImpressionsComment < gettingServerInformation.comments.length) {
@@ -36,11 +36,13 @@
   const onButtonHideBigPicture = () => {
     bigPicture.classList.add(`hidden`);
     buttonLoadComments.classList.remove(`hidden`);
-    buttonLoadComments.removeEventListener(`click`, onCommentsLoaderClick);
+    buttonLoadComments.removeEventListener(`click`, onCommentsLoadClick);
     postingImpressionsComment = 5;
     picturesAdding = 5;
     showComments = 5;
+    document.removeEventListener(`keydown`, onKeyHideBigPicture);
   };
+
 
   const onKeyHideBigPicture = (evt) => {
     if (evt.key === `Escape`) {
@@ -69,18 +71,17 @@
 
   buttonClosure.addEventListener(`click`, onButtonHideBigPicture);
 
-  document.addEventListener(`keydown`, onKeyHideBigPicture);
 
   const renderPicture = (picture) => {
-    const blockTemplatee = sampleBigPicture.cloneNode(true);
-    blockTemplatee.querySelector(`.picture__img`).src = picture.url;
-    blockTemplatee.querySelector(`.picture__likes`).textContent = picture.likes;
-    blockTemplatee.querySelector(`.picture__comments`).textContent = picture.comments.length;
-    return blockTemplatee;
+    const blockTemplate = sampleBigPicture.cloneNode(true);
+    blockTemplate.querySelector(`.picture__img`).src = picture.url;
+    blockTemplate.querySelector(`.picture__likes`).textContent = picture.likes;
+    blockTemplate.querySelector(`.picture__comments`).textContent = picture.comments.length;
+    return blockTemplate;
   };
 
   const bigPictureRender = (picture) => {
-    listComments.innerHTML = ``;
+    listComments.textContent = ``;
     gettingServerInformation = picture;
 
     const description = bigPicture.querySelector(`.social__caption`);
@@ -108,12 +109,14 @@
       }
     }
 
-    buttonLoadComments.addEventListener(`click`, onCommentsLoaderClick);
+    buttonLoadComments.addEventListener(`click`, onCommentsLoadClick);
+    document.addEventListener(`keydown`, onKeyHideBigPicture);
   };
 
   window.render = {
     renderPicture,
     bigPictureRender,
-    bigPicture
+    bigPicture,
+    onKeyHideBigPicture
   };
 })();

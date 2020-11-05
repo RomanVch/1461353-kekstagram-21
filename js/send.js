@@ -4,7 +4,7 @@
   const main = document.querySelector(`main`);
   const form = document.querySelector(`.img-upload__form`);
   let valueZoom = 100;
-  const initialSettings = ()=>{
+  const startInitialSettings = ()=>{
     window.form.imgUploadPreview.style.transform = `scale(1)`;
     window.send.valueZoom = 100;
     window.form.effectsRadio[0].checked = true;
@@ -21,7 +21,7 @@
   };
   const onSuccess = () => {
     const successMessage = document.querySelector(`#success`);
-    initialSettings();
+    startInitialSettings();
     main.appendChild(successMessage.content);
     const successInner = main.querySelector(`.success`);
     const successButton = successInner.querySelector(`.success__button`);
@@ -31,7 +31,7 @@
   };
   const onError = ()=>{
     const erorrMessage = document.querySelector(`#error`);
-    initialSettings();
+    startInitialSettings();
     main.appendChild(erorrMessage.content);
     window.picture.imgUploadOverlay.classList.add(`hidden`);
     const errorWindow = main.querySelector(`.error`);
@@ -40,22 +40,28 @@
     const errorWindowsill = errorWindow.querySelector(`.error__inner`);
     closeSuccesWindow(errorWindow, errorButton, errorWindowsill);
   };
+
   const closeSuccesWindow = (way, button, sill)=>{
-    const onButtonSuccesWindow = () => {
+    const closeWindow = () => {
       way.classList.add(`hidden`);
       document.body.classList.remove(`modal-open`);
+      document.removeEventListener(`click`, onClickFreeAreaSuccesWindow);
+      document.removeEventListener(`keydown`, onKeySuccesWindow);
+      document.removeEventListener(`keydown`, window.picture.onKeyCloseFormLoad);
+    };
+    const onButtonSuccesWindow = () => {
+      closeWindow(way);
     };
 
     const onKeySuccesWindow = (evt) => {
       if (evt.key === `Escape`) {
-        way.classList.add(`hidden`);
-        document.body.classList.remove(`modal-open`);
+        closeWindow(way);
       }
     };
     const onClickFreeAreaSuccesWindow = (evt)=>{
       const isClickInside = sill.contains(evt.target);
       if (!isClickInside) {
-        way.classList.add(`hidden`);
+        closeWindow(way);
       }
     };
     button.addEventListener(`click`, onButtonSuccesWindow);
@@ -74,6 +80,8 @@
 
   window.send = {
     valueZoom,
-    initialSettings
+    startInitialSettings,
+    onSubmitFormSend,
+    form
   };
 })();

@@ -6,7 +6,7 @@
   const MAX_COMMENT_LENGTH = 140;
   const comentFoto = document.querySelector(`.text__description`);
 
-  const onInputValidationHastag = () => {
+  const onInputValidateHastag = () => {
     const hashtagsSeparator = hastag.value.toLowerCase().split(` `);
     const uniqHastags = [...new Set(hashtagsSeparator)];
     for (let i = 0; i < hashtagsSeparator.length; i++) {
@@ -28,7 +28,7 @@
     }
   };
 
-  const onInputValidationComent = () => {
+  const onInputValidateComent = () => {
     const valueLength = comentFoto.value.length;
     if (MAX_COMMENT_LENGTH < valueLength) {
       comentFoto.setCustomValidity(`максимальная длина коментария 140 символов`);
@@ -37,9 +37,9 @@
     }
   };
 
-  hastag.addEventListener(`input`, onInputValidationHastag);
+  hastag.addEventListener(`input`, onInputValidateHastag);
 
-  comentFoto.addEventListener(`input`, onInputValidationComent);
+  comentFoto.addEventListener(`input`, onInputValidateComent);
 
   window.validation = {
     hastag,

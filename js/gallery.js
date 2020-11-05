@@ -26,7 +26,7 @@
       picturesContainer.appendChild(photo);
     }
   };
-  const randomNumber = (min, max) => {
+  const getRandomNumber = (min, max) => {
     return (Math.random() * (max - min + 1)) + min;
   };
   const onSuccess = (pictures) => {
@@ -34,13 +34,23 @@
     sortPictureList = pictures.slice();
     pictures.forEach((picture) => {
       const photo = window.render.renderPicture(picture);
-      const photoDom = photo.querySelector(`.picture__img`);
-      photoDom.addEventListener(`click`, (evt) => {
-        evt.preventDefault();
+      const photoDom = photo.querySelector(`.picture`);
+      picturesContainer.appendChild(photo);
+      const onKeyOpenPhoto = (evt) => {
+        if (evt.key === `Enter`) {
+          evt.preventDefault();
+          window.render.bigPictureRender(picture);
+          window.render.bigPicture.classList.remove(`hidden`);
+        }
+      };
+      const onClickOpenPhoto = () => {
         window.render.bigPictureRender(picture);
         window.render.bigPicture.classList.remove(`hidden`);
-      });
-      picturesContainer.appendChild(photo);
+      };
+      photoDom.addEventListener(`keydown`, onKeyOpenPhoto);
+      photoDom.addEventListener(`click`, onClickOpenPhoto);
+
+
     });
     imgFilters.classList.remove(`img-filters--inactive`);
 
@@ -57,10 +67,9 @@
     node.textContent = `ошибка: ` + error;
     document.body.insertAdjacentElement(`afterbegin`, node);
   });
-  // рандом рендер
-  const onButtonRandomFiltr = () => {
+  const onButtonClickRandomFiltr = () => {
     for (let i = 0; i < pictureList.length; i++) {
-      randomList.push(pictureList[Math.floor(randomNumber(0, pictureList.length - 1))]);
+      randomList.push(pictureList[Math.floor(getRandomNumber(0, pictureList.length - 1))]);
       uniqRandomList = [...new Set(randomList)];
     }
     renderFiltres(uniqRandomList, RENDER_RANDOM_NUMBER);
@@ -69,16 +78,14 @@
     commentsSortButton.classList.remove(`img-filters__button--active`);
     randomList = [];
   };
-  // по умолчанию
-  const onButtonDefaultFiltr = () => {
+  const onButtonClickDefaultFiltr = () => {
     renderFiltres(pictureList, pictureList.length);
     randomButton.classList.remove(`img-filters__button--active`);
     defaultButton.classList.add(`img-filters__button--active`);
     commentsSortButton.classList.remove(`img-filters__button--active`);
   };
 
-  // фильтр по количеству коментариев
-  const onButtonCommentsFiltr = ()=>{
+  const onButtonClickCommentsFiltr = ()=>{
     sortPictureList.sort((a, b)=>{
       return b.comments.length - a.comments.length;
     });
@@ -87,7 +94,7 @@
     defaultButton.classList.remove(`img-filters__button--active`);
     commentsSortButton.classList.add(`img-filters__button--active`);
   };
-  randomButton.addEventListener(`click`, window.debounce(onButtonRandomFiltr));
-  defaultButton.addEventListener(`click`, window.debounce(onButtonDefaultFiltr));
-  commentsSortButton.addEventListener(`click`, window.debounce(onButtonCommentsFiltr));
+  randomButton.addEventListener(`click`, window.debounce(onButtonClickRandomFiltr));
+  defaultButton.addEventListener(`click`, window.debounce(onButtonClickDefaultFiltr));
+  commentsSortButton.addEventListener(`click`, window.debounce(onButtonClickCommentsFiltr));
 })();

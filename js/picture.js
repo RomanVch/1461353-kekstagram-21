@@ -8,18 +8,22 @@
   const onButtonLoadFile = () => {
     imgUploadOverlay.classList.remove(`hidden`);
     body.classList.add(`modal-open`);
+    document.addEventListener(`keydown`, window.picture.onKeyCloseFormLoad);
+
   };
 
   const onButtonCloseFormLoad = () => {
-    window.send.initialSettings();
+    window.send.startInitialSettings();
     body.classList.remove(`modal-open`);
+    document.removeEventListener(`keydown`, onKeyCloseFormLoad);
   };
 
   const onKeyCloseFormLoad = (evt) => {
     if (document.activeElement !== window.validation.hastag && evt.key === `Escape`) {
       evt.preventDefault();
-      window.send.initialSettings();
+      window.send.startInitialSettings();
       body.classList.remove(`modal-open`);
+      document.removeEventListener(`keydown`, onKeyCloseFormLoad);
     }
   };
 
@@ -27,10 +31,10 @@
 
   upLoadCancel.addEventListener(`click`, onButtonCloseFormLoad);
 
-  document.addEventListener(`keydown`, onKeyCloseFormLoad);
 
   window.picture = {
     imgUploadOverlay,
-    uploadFile
+    uploadFile,
+    onKeyCloseFormLoad
   };
 })();

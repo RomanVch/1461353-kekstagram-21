@@ -23,7 +23,7 @@
   const scaleControlValue = imgUpload.querySelector(`.scale__control--value`);
   const imgUploadPreview = imgUpload.querySelector(`.img-upload__preview`);
 
-  const funScaleSmall = () => {
+  const reduce = () => {
     if (window.send.valueZoom > 26) {
       window.send.valueZoom = window.send.valueZoom - 25;
       scaleControlValue.value = window.send.valueZoom + `%`;
@@ -36,7 +36,7 @@
   };
 
 
-  const funScaleBig = () => {
+  const zoom = () => {
     if (window.send.valueZoom < 100) {
       window.send.valueZoom = window.send.valueZoom + 25;
       scaleControlValue.value = window.send.valueZoom + `%`;
@@ -50,11 +50,11 @@
 
 
   scaleControlSmaller.addEventListener(`click`, () => {
-    funScaleSmall();
+    reduce();
   });
 
   scaleControlBigger.addEventListener(`click`, () => {
-    funScaleBig();
+    zoom();
 
   });
 
@@ -71,7 +71,7 @@
       prewiewFoto.className = ``;
       imgUploadEffectLevel.classList.remove(`hidden`);
       prewiewFoto.classList.add(arrayEfects[i]);
-      const effectsDef = [
+      const defaultEffects = [
         ``,
         `grayscale(1)`,
         `sepia(1)`,
@@ -79,9 +79,9 @@
         `blur(3px)`,
         `brightness(3)`,
       ];
-      for (let y = 0; y < effectsDef.length; y++) {
+      for (let y = 0; y < defaultEffects.length; y++) {
         if (prewiewFoto.classList.contains(arrayEfects[y])) {
-          prewiewFoto.style.filter = effectsDef[y];
+          prewiewFoto.style.filter = defaultEffects[y];
         } else if (shift !== 100) {
           shift = 100;
           effectLevelPin.style.left = `100%`;
@@ -92,9 +92,7 @@
   }
 
 
-  const slider = () => {
-
-    // функция обработки mousedown при перетягивании ползунка
+  const slide = () => {
 
     const onSliderPinActive = (evt) => {
       evt.preventDefault();
@@ -102,7 +100,6 @@
       document.addEventListener(`mouseup`, onSliderPinDrop);
     };
 
-    // функция обработки mousemove и рассчета положения ползунка в процентах
     const onSliderPinMove = (evt) => {
       const scaleMax = effectLevelLine.getBoundingClientRect().right;
       const scaleMin = effectLevelLine.getBoundingClientRect().left;
@@ -113,18 +110,34 @@
         currentX = scaleMin;
       }
       shift = parseInt((currentX - scaleMin) * 100 / (scaleMax - scaleMin), 10);
-      slider.shift = parseInt((currentX - scaleMin) * 100 / (scaleMax - scaleMin), 10);
+      slide.shift = parseInt((currentX - scaleMin) * 100 / (scaleMax - scaleMin), 10);
       effectLevelPin.style.left = `${shift}%`;
       effectLevelDepth.style.width = `${shift}%`;
       effectLevelValue.value = shift;
+      document.addEventListener(`mousemove`, onMouseMoveSliderEffects);
     };
-
-    // функция обработки mouseup при перетягивании ползунка
 
     const onSliderPinDrop = (evt) => {
       evt.preventDefault();
       document.removeEventListener(`mousemove`, onSliderPinMove);
       document.removeEventListener(`mouseup`, onSliderPinDrop);
+      document.removeEventListener(`mousemove`, onMouseMoveSliderEffects);
+    };
+    const onMouseMoveSliderEffects = () => {
+      const brightnessStep = 1 + (shift / 50);
+      const effects = [
+        ``,
+        `grayscale(${shift / 100})`,
+        `sepia(${shift / 100})`,
+        `invert(${shift}%)`,
+        `blur(${shift / 33.3333}px)`,
+        `brightness(${brightnessStep})`,
+      ];
+      for (let i = 0; i < effects.length; i++) {
+        if (prewiewFoto.classList.contains(arrayEfects[i])) {
+          prewiewFoto.style.filter = effects[i];
+        }
+      }
     };
 
     effectLevelPin.addEventListener(`mousedown`, onSliderPinActive);
@@ -138,23 +151,7 @@
     };
 
   };
-  slider();
-  document.addEventListener(`mousemove`, () => {
-    const brightnessStep = 1 + (shift / 50);
-    const effects = [
-      ``,
-      `grayscale(${shift / 100})`,
-      `sepia(${shift / 100})`,
-      `invert(${shift}%)`,
-      `blur(${shift / 33.3333}px)`,
-      `brightness(${brightnessStep})`,
-    ];
-    for (let i = 0; i < effects.length; i++) {
-      if (prewiewFoto.classList.contains(arrayEfects[i])) {
-        prewiewFoto.style.filter = effects[i];
-      }
-    }
-  });
+  slide();
   window.form = {
     imgUploadEffectLevel,
     effectLevelValue,
@@ -163,7 +160,6 @@
     imgUpload,
     effectsRadio,
     prewiewFoto,
-    scaleControlSmaller,
-    funScaleSmall
+    scaleControlSmaller
   };
 })();
