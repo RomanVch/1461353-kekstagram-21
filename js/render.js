@@ -33,21 +33,21 @@
     }
   };
 
-  const onButtonHideBigPicture = () => {
+  const onButtonClosureClick = () => {
     bigPicture.classList.add(`hidden`);
     buttonLoadComments.classList.remove(`hidden`);
     buttonLoadComments.removeEventListener(`click`, onCommentsLoadClick);
     postingImpressionsComment = 5;
     picturesAdding = 5;
     showComments = 5;
-    document.removeEventListener(`keydown`, onKeyHideBigPicture);
+    document.removeEventListener(`keydown`, onDocumentKeydown);
   };
 
 
-  const onKeyHideBigPicture = (evt) => {
+  const onDocumentKeydown = (evt) => {
     if (evt.key === `Escape`) {
       evt.preventDefault();
-      onButtonHideBigPicture();
+      onButtonClosureClick();
     }
   };
 
@@ -69,7 +69,7 @@
     return listItem;
   };
 
-  buttonClosure.addEventListener(`click`, onButtonHideBigPicture);
+  buttonClosure.addEventListener(`click`, onButtonClosureClick);
 
 
   const renderPicture = (picture) => {
@@ -110,13 +110,12 @@
     }
 
     buttonLoadComments.addEventListener(`click`, onCommentsLoadClick);
-    document.addEventListener(`keydown`, onKeyHideBigPicture);
+    document.addEventListener(`keydown`, onDocumentKeydown);
   };
 
   window.render = {
     renderPicture,
     bigPictureRender,
-    bigPicture,
-    onKeyHideBigPicture
+    bigPicture
   };
 })();

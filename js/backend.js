@@ -1,13 +1,14 @@
 'use strict';
 (()=>{
+  const URL_GET = `https://21.javascript.pages.academy/kekstagram/data`;
+  const URL_PUSH = `https://21.javascript.pages.academy/kekstagram`;
   const StatusCode = {
     OK: 200
   };
   const load = (onSuccess, onError) => {
-    const urlGet = `https://21.javascript.pages.academy/kekstagram/data`;
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
-    xhr.open(`GET`, urlGet);
+    xhr.open(`GET`, URL_GET);
 
     xhr.addEventListener(`load`, () => {
       onSuccess(xhr.response);
@@ -19,10 +20,9 @@
     xhr.send();
   };
   const send = (data, onSuccess, onError) => {
-    const urlGet = `https://21.javascript.pages.academy/kekstagram`;
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
-    xhr.open(`POST`, urlGet);
+    xhr.open(`POST`, URL_PUSH);
 
     xhr.addEventListener(`load`, () => {
       if (xhr.status === StatusCode.OK) {

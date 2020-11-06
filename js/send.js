@@ -45,43 +45,43 @@
     const closeWindow = () => {
       way.classList.add(`hidden`);
       document.body.classList.remove(`modal-open`);
-      document.removeEventListener(`click`, onClickFreeAreaSuccesWindow);
-      document.removeEventListener(`keydown`, onKeySuccesWindow);
-      document.removeEventListener(`keydown`, window.picture.onKeyCloseFormLoad);
+      button.removeEventListener(`click`, onButtonClick);
+      document.removeEventListener(`click`, onDocumentClick);
+      document.removeEventListener(`keydown`, onDocumentKeydown);
+      document.removeEventListener(`keydown`, window.picture.onDocumentKeydown);
     };
-    const onButtonSuccesWindow = () => {
+    const onButtonClick = () => {
       closeWindow(way);
     };
 
-    const onKeySuccesWindow = (evt) => {
+    const onDocumentKeydown = (evt) => {
       if (evt.key === `Escape`) {
         closeWindow(way);
       }
     };
-    const onClickFreeAreaSuccesWindow = (evt)=>{
+    const onDocumentClick = (evt)=>{
       const isClickInside = sill.contains(evt.target);
       if (!isClickInside) {
         closeWindow(way);
       }
     };
-    button.addEventListener(`click`, onButtonSuccesWindow);
+    button.addEventListener(`click`, onButtonClick);
 
-    document.addEventListener(`keydown`, onKeySuccesWindow);
+    document.addEventListener(`keydown`, onDocumentKeydown);
 
-    document.addEventListener(`click`, onClickFreeAreaSuccesWindow);
+    document.addEventListener(`click`, onDocumentClick);
   };
 
-  const onSubmitFormSend = (evt)=>{
+  const onFormSubmit = (evt)=>{
     evt.preventDefault();
     window.backend.send(new FormData(form), onSuccess, onError);
   };
 
-  form.addEventListener(`submit`, onSubmitFormSend);
+  form.addEventListener(`submit`, onFormSubmit);
 
   window.send = {
     valueZoom,
     startInitialSettings,
-    onSubmitFormSend,
-    form
+    onFormSubmit
   };
 })();

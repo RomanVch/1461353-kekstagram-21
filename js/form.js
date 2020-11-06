@@ -23,7 +23,7 @@
   const scaleControlValue = imgUpload.querySelector(`.scale__control--value`);
   const imgUploadPreview = imgUpload.querySelector(`.img-upload__preview`);
 
-  const reduce = () => {
+  const onScaleControlSmallerClick = () => {
     if (window.send.valueZoom > 26) {
       window.send.valueZoom = window.send.valueZoom - 25;
       scaleControlValue.value = window.send.valueZoom + `%`;
@@ -36,7 +36,7 @@
   };
 
 
-  const zoom = () => {
+  const onScaleControlBiggerClick = () => {
     if (window.send.valueZoom < 100) {
       window.send.valueZoom = window.send.valueZoom + 25;
       scaleControlValue.value = window.send.valueZoom + `%`;
@@ -48,15 +48,6 @@
     }
   };
 
-
-  scaleControlSmaller.addEventListener(`click`, () => {
-    reduce();
-  });
-
-  scaleControlBigger.addEventListener(`click`, () => {
-    zoom();
-
-  });
 
   const deleteEffects = () => {
     effectsRadio[0].addEventListener(`change`, () => {
@@ -94,13 +85,13 @@
 
   const slide = () => {
 
-    const onSliderPinActive = (evt) => {
+    const onEffectLevelPinMouseDown = (evt) => {
       evt.preventDefault();
-      document.addEventListener(`mousemove`, onSliderPinMove);
-      document.addEventListener(`mouseup`, onSliderPinDrop);
+      document.addEventListener(`mousemove`, onEffectLevelValueClick);
+      document.addEventListener(`mouseup`, onDocumentMouseUp);
     };
 
-    const onSliderPinMove = (evt) => {
+    const onEffectLevelValueClick = (evt) => {
       const scaleMax = effectLevelLine.getBoundingClientRect().right;
       const scaleMin = effectLevelLine.getBoundingClientRect().left;
       let currentX = evt.clientX;
@@ -114,16 +105,16 @@
       effectLevelPin.style.left = `${shift}%`;
       effectLevelDepth.style.width = `${shift}%`;
       effectLevelValue.value = shift;
-      document.addEventListener(`mousemove`, onMouseMoveSliderEffects);
+      document.addEventListener(`mousemove`, onDocumentMouseMove);
     };
 
-    const onSliderPinDrop = (evt) => {
+    const onDocumentMouseUp = (evt) => {
       evt.preventDefault();
-      document.removeEventListener(`mousemove`, onSliderPinMove);
-      document.removeEventListener(`mouseup`, onSliderPinDrop);
-      document.removeEventListener(`mousemove`, onMouseMoveSliderEffects);
+      document.removeEventListener(`mousemove`, onEffectLevelValueClick);
+      document.removeEventListener(`mouseup`, onDocumentMouseUp);
+      document.removeEventListener(`mousemove`, onDocumentMouseMove);
     };
-    const onMouseMoveSliderEffects = () => {
+    const onDocumentMouseMove = () => {
       const brightnessStep = 1 + (shift / 50);
       const effects = [
         ``,
@@ -140,10 +131,24 @@
       }
     };
 
-    effectLevelPin.addEventListener(`mousedown`, onSliderPinActive);
-    effectLevelValue.addEventListener(`click`, onSliderPinMove);
+    effectLevelPin.addEventListener(`mousedown`, onEffectLevelPinMouseDown);
+    effectLevelValue.addEventListener(`click`, onEffectLevelValueClick);
 
-
+    window.form = {
+      imgUploadEffectLevel,
+      effectLevelValue,
+      imgUploadPreview,
+      scaleControlValue,
+      imgUpload,
+      effectsRadio,
+      prewiewFoto,
+      scaleControlSmaller,
+      onScaleControlSmallerClick,
+      scaleControlBigger,
+      onScaleControlBiggerClick,
+      effectLevelPin,
+      onEffectLevelPinMouseDown
+    };
     return {
       shift,
       effectLevelPin,
@@ -152,14 +157,5 @@
 
   };
   slide();
-  window.form = {
-    imgUploadEffectLevel,
-    effectLevelValue,
-    imgUploadPreview,
-    scaleControlValue,
-    imgUpload,
-    effectsRadio,
-    prewiewFoto,
-    scaleControlSmaller
-  };
+
 })();

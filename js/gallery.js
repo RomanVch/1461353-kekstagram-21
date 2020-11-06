@@ -11,18 +11,25 @@
   let sortPictureList = [];
   const RENDER_RANDOM_NUMBER = 10;
   const renderFiltres = (list, listLength)=>{
-    const photoDom = document.querySelectorAll(`.picture`);
-    for (let i = 0; i < photoDom.length; i++) {
-      photoDom[i].remove(picturesContainer);
+    const photoGalleryIcons = document.querySelectorAll(`.picture`);
+    for (let i = 0; i < photoGalleryIcons.length; i++) {
+      photoGalleryIcons[i].remove(picturesContainer);
     }
     for (let i = 0; i < listLength; i++) {
       const photo = window.render.renderPicture(list[i]);
-      const randomPhotoDom = photo.querySelector(`.picture__img`);
-      randomPhotoDom.addEventListener(`click`, (evt) => {
+      const randomPhotoGalleryIcon = photo.querySelector(`.picture`);
+      const onRandomPhotoGalleryIconClick = (evt) => {
         evt.preventDefault();
         window.render.bigPictureRender(list[i]);
         window.render.bigPicture.classList.remove(`hidden`);
-      });
+      };
+      const onPhotoGalleryIconKeydown = (evt) => {
+        if (evt.key === `Enter`) {
+          onRandomPhotoGalleryIconClick();
+        }
+      };
+      randomPhotoGalleryIcon.addEventListener(`keydown`, onPhotoGalleryIconKeydown);
+      randomPhotoGalleryIcon.addEventListener(`click`, onRandomPhotoGalleryIconClick);
       picturesContainer.appendChild(photo);
     }
   };
@@ -34,22 +41,21 @@
     sortPictureList = pictures.slice();
     pictures.forEach((picture) => {
       const photo = window.render.renderPicture(picture);
-      const photoDom = photo.querySelector(`.picture`);
+      const photoGalleryIcon = photo.querySelector(`.picture`);
       picturesContainer.appendChild(photo);
-      const onKeyOpenPhoto = (evt) => {
+      const onPhotoGalleryIconKeydown = (evt) => {
         if (evt.key === `Enter`) {
           evt.preventDefault();
           window.render.bigPictureRender(picture);
           window.render.bigPicture.classList.remove(`hidden`);
         }
       };
-      const onClickOpenPhoto = () => {
+      const onPhotoGalleryIconClick = () => {
         window.render.bigPictureRender(picture);
         window.render.bigPicture.classList.remove(`hidden`);
       };
-      photoDom.addEventListener(`keydown`, onKeyOpenPhoto);
-      photoDom.addEventListener(`click`, onClickOpenPhoto);
-
+      photoGalleryIcon.addEventListener(`keydown`, onPhotoGalleryIconKeydown);
+      photoGalleryIcon.addEventListener(`click`, onPhotoGalleryIconClick);
 
     });
     imgFilters.classList.remove(`img-filters--inactive`);
@@ -67,7 +73,7 @@
     node.textContent = `ошибка: ` + error;
     document.body.insertAdjacentElement(`afterbegin`, node);
   });
-  const onButtonClickRandomFiltr = () => {
+  const onRandomButtonClick = () => {
     for (let i = 0; i < pictureList.length; i++) {
       randomList.push(pictureList[Math.floor(getRandomNumber(0, pictureList.length - 1))]);
       uniqRandomList = [...new Set(randomList)];
@@ -78,14 +84,14 @@
     commentsSortButton.classList.remove(`img-filters__button--active`);
     randomList = [];
   };
-  const onButtonClickDefaultFiltr = () => {
+  const onDefaultButtonClick = () => {
     renderFiltres(pictureList, pictureList.length);
     randomButton.classList.remove(`img-filters__button--active`);
     defaultButton.classList.add(`img-filters__button--active`);
     commentsSortButton.classList.remove(`img-filters__button--active`);
   };
 
-  const onButtonClickCommentsFiltr = ()=>{
+  const onCommentsSortButtonClick = ()=>{
     sortPictureList.sort((a, b)=>{
       return b.comments.length - a.comments.length;
     });
@@ -94,7 +100,7 @@
     defaultButton.classList.remove(`img-filters__button--active`);
     commentsSortButton.classList.add(`img-filters__button--active`);
   };
-  randomButton.addEventListener(`click`, window.debounce(onButtonClickRandomFiltr));
-  defaultButton.addEventListener(`click`, window.debounce(onButtonClickDefaultFiltr));
-  commentsSortButton.addEventListener(`click`, window.debounce(onButtonClickCommentsFiltr));
+  randomButton.addEventListener(`click`, window.debounce(onRandomButtonClick));
+  defaultButton.addEventListener(`click`, window.debounce(onDefaultButtonClick));
+  commentsSortButton.addEventListener(`click`, window.debounce(onCommentsSortButtonClick));
 })();
