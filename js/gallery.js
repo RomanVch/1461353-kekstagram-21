@@ -21,7 +21,7 @@
     for (let i = 0; i < listLength; i++) {
       const photo = window.render.renderPicture(listName[i]);
       const randomPhotoGalleryIcon = photo.querySelector(`.picture`);
-
+      console.log(window.render.renderPicture(listName[i]));
       const onRandomPhotoGalleryIconClick = (evt) => {
         evt.preventDefault();
         window.render.bigPictureRender(listName[i]);
@@ -37,8 +37,8 @@
       randomPhotoGalleryIcon.addEventListener(`keydown`, onPhotoGalleryIconKeydown);
       randomPhotoGalleryIcon.addEventListener(`click`, onRandomPhotoGalleryIconClick);
       fragment.appendChild(photo);
-      picturesContainer.appendChild(fragment);
     }
+    picturesContainer.appendChild(fragment);
   };
 
   const getRandomNumber = (min, max) => {
@@ -48,12 +48,11 @@
   const onSuccess = (pictures) => {
     pictureLists = pictures;
     sortPictureLists = pictures.slice();
+    const fragment = document.createDocumentFragment();
     pictures.forEach((picture) => {
       const photo = window.render.renderPicture(picture);
       const photoGalleryIcon = photo.querySelector(`.picture`);
-      const fragment = document.createDocumentFragment();
       fragment.appendChild(photo);
-      picturesContainer.appendChild(fragment);
       const onPhotoGalleryIconKeydown = (evt) => {
         if (evt.key === ENTER) {
           evt.preventDefault();
@@ -72,6 +71,7 @@
       photoGalleryIcon.addEventListener(`click`, onPhotoGalleryIconClick);
     });
     pictureFilter.classList.remove(`img-filters--inactive`);
+    picturesContainer.appendChild(fragment);
   };
 
   window.backend.load(onSuccess, (error) => {
