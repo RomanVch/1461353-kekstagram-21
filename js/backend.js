@@ -1,5 +1,5 @@
 'use strict';
-(()=>{
+(() => {
   const URL_GET = `https://21.javascript.pages.academy/kekstagram/data`;
   const URL_PUSH = `https://21.javascript.pages.academy/kekstagram`;
   const StatusCode = {
@@ -31,10 +31,10 @@
         onError(xhr.status);
       }
     });
+
     xhr.addEventListener(`error`, () => {
       onError(`Произошла ошибка соединения`);
     });
-
     xhr.send(data);
   };
   window.backend = {

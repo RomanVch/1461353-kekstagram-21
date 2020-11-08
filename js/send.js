@@ -1,12 +1,15 @@
 'use strict';
 (() => {
+  const DEFAULT_DIGIT = 100;
+  const DEFAULT_LEVEL_VALUE = `100`;
   const imgUploadInput = document.querySelector(`.img-upload__input`);
   const main = document.querySelector(`main`);
   const form = document.querySelector(`.img-upload__form`);
   let valueZoom = 100;
-  const startInitialSettings = ()=>{
+
+  const startInitialSettings = () => {
     window.form.imgUploadPreview.style.transform = `scale(1)`;
-    window.send.valueZoom = 100;
+    window.send.valueZoom = DEFAULT_DIGIT;
     window.form.effectsRadio[0].checked = true;
     window.validation.hastag.value = ``;
     window.validation.comentFoto.value = ``;
@@ -17,8 +20,9 @@
     window.picture.imgUploadOverlay.classList.add(`hidden`);
     window.picture.uploadFile.value = ``;
     window.form.scaleControlValue.value = `100%`;
-    window.form.effectLevelValue.value = `100`;
+    window.form.effectLevelValue.value = DEFAULT_LEVEL_VALUE;
   };
+
   const onSuccess = () => {
     const successMessage = document.querySelector(`#success`);
     startInitialSettings();
@@ -29,7 +33,8 @@
     const successWindowsill = successInner.querySelector(`.success__inner`);
     closeSuccesWindow(successInner, successButton, successWindowsill);
   };
-  const onError = ()=>{
+
+  const onError = () => {
     const erorrMessage = document.querySelector(`#error`);
     startInitialSettings();
     main.appendChild(erorrMessage.content);
@@ -41,7 +46,7 @@
     closeSuccesWindow(errorWindow, errorButton, errorWindowsill);
   };
 
-  const closeSuccesWindow = (way, button, sill)=>{
+  const closeSuccesWindow = (way, button, sill) => {
     const closeWindow = () => {
       way.classList.add(`hidden`);
       document.body.classList.remove(`modal-open`);
@@ -55,28 +60,25 @@
     };
 
     const onDocumentKeydown = (evt) => {
-      if (evt.key === `Escape`) {
+      if (evt.key === window.render.ESCAPE) {
         closeWindow(way);
       }
     };
-    const onDocumentClick = (evt)=>{
+    const onDocumentClick = (evt) => {
       const isClickInside = sill.contains(evt.target);
       if (!isClickInside) {
         closeWindow(way);
       }
     };
     button.addEventListener(`click`, onButtonClick);
-
     document.addEventListener(`keydown`, onDocumentKeydown);
-
     document.addEventListener(`click`, onDocumentClick);
   };
 
-  const onFormSubmit = (evt)=>{
+  const onFormSubmit = (evt) => {
     evt.preventDefault();
     window.backend.send(new FormData(form), onSuccess, onError);
   };
-
   form.addEventListener(`submit`, onFormSubmit);
 
   window.send = {

@@ -1,7 +1,9 @@
 'use strict';
-(()=>{
-  let showComments = 5;
+(() => {
   const RENDER_STOP_INDEX = 4;
+  const DEFAULT_DIGIT = 5;
+  const ESCAPE = `Escape`;
+  let numberOfComment = 5;
   const bigPicture = document.querySelector(`.big-picture`);
   const buttonClosure = document.querySelector(`.big-picture__cancel`);
   const sampleBigPicture = document.querySelector(`#picture`).content;
@@ -13,17 +15,20 @@
   let postingImpressionsComment = 5;
   let picturesAdding = 5;
   const getComentsInfo = (way)=>{
+    const fragment = document.createDocumentFragment();
     const comment = renderComment({
       avatar: way.avatar,
       message: way.message
     });
-    listComments.appendChild(comment);
+    fragment.appendChild(comment);
+    listComments.appendChild(fragment);
   };
+
   const onCommentsLoadClick = () => {
-    picturesAdding = picturesAdding + 5;
-    for (showComments; showComments < picturesAdding; showComments++) {
+    picturesAdding = picturesAdding + DEFAULT_DIGIT;
+    for (numberOfComment; numberOfComment < picturesAdding; numberOfComment++) {
       if (postingImpressionsComment < gettingServerInformation.comments.length) {
-        getComentsInfo(gettingServerInformation.comments[showComments]);
+        getComentsInfo(gettingServerInformation.comments[numberOfComment]);
         postingImpressionsComment = postingImpressionsComment + 1;
         quantityComment.textContent = `${postingImpressionsComment} из ${gettingServerInformation.comments.length} комментариев`;
       } else {
@@ -37,15 +42,16 @@
     bigPicture.classList.add(`hidden`);
     buttonLoadComments.classList.remove(`hidden`);
     buttonLoadComments.removeEventListener(`click`, onCommentsLoadClick);
-    postingImpressionsComment = 5;
-    picturesAdding = 5;
-    showComments = 5;
+    postingImpressionsComment = DEFAULT_DIGIT;
+    picturesAdding = DEFAULT_DIGIT;
+    numberOfComment = DEFAULT_DIGIT;
+    document.body.classList.remove(`modal-open`);
     document.removeEventListener(`keydown`, onDocumentKeydown);
   };
 
 
   const onDocumentKeydown = (evt) => {
-    if (evt.key === `Escape`) {
+    if (evt.key === ESCAPE) {
       evt.preventDefault();
       onButtonClosureClick();
     }
@@ -95,7 +101,7 @@
 
 
     for (let i = 0; i < picture.comments.length; i++) {
-      if (picture.comments.length > showComments) {
+      if (picture.comments.length > numberOfComment) {
         getComentsInfo(picture.comments[i]);
         quantityComment.textContent = `5 из ${picture.comments.length} комментариев`;
         if (i === RENDER_STOP_INDEX) {
@@ -116,6 +122,7 @@
   window.render = {
     renderPicture,
     bigPictureRender,
-    bigPicture
+    bigPicture,
+    ESCAPE
   };
 })();
