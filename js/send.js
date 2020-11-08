@@ -1,12 +1,15 @@
 'use strict';
 (() => {
+  const DEFAULT_DIGIT = 100;
+  const DEFAULT_LEVEL_VALUE = `100`;
   const imgUploadInput = document.querySelector(`.img-upload__input`);
   const main = document.querySelector(`main`);
   const form = document.querySelector(`.img-upload__form`);
   let valueZoom = 100;
-  const initialSettings = ()=>{
+
+  const startInitialSettings = () => {
     window.form.imgUploadPreview.style.transform = `scale(1)`;
-    window.send.valueZoom = 100;
+    window.send.valueZoom = DEFAULT_DIGIT;
     window.form.effectsRadio[0].checked = true;
     window.validation.hastag.value = ``;
     window.validation.comentFoto.value = ``;
@@ -17,11 +20,12 @@
     window.picture.imgUploadOverlay.classList.add(`hidden`);
     window.picture.uploadFile.value = ``;
     window.form.scaleControlValue.value = `100%`;
-    window.form.effectLevelValue.value = `100`;
+    window.form.effectLevelValue.value = DEFAULT_LEVEL_VALUE;
   };
+
   const onSuccess = () => {
     const successMessage = document.querySelector(`#success`);
-    initialSettings();
+    startInitialSettings();
     main.appendChild(successMessage.content);
     const successInner = main.querySelector(`.success`);
     const successButton = successInner.querySelector(`.success__button`);
@@ -29,9 +33,10 @@
     const successWindowsill = successInner.querySelector(`.success__inner`);
     closeSuccesWindow(successInner, successButton, successWindowsill);
   };
-  const onError = ()=>{
+
+  const onError = () => {
     const erorrMessage = document.querySelector(`#error`);
-    initialSettings();
+    startInitialSettings();
     main.appendChild(erorrMessage.content);
     window.picture.imgUploadOverlay.classList.add(`hidden`);
     const errorWindow = main.querySelector(`.error`);
@@ -40,31 +45,45 @@
     const errorWindowsill = errorWindow.querySelector(`.error__inner`);
     closeSuccesWindow(errorWindow, errorButton, errorWindowsill);
   };
-  const closeSuccesWindow = (way, button, sill)=>{
-    button.addEventListener(`click`, () => {
+
+  const closeSuccesWindow = (way, button, sill) => {
+    const closeWindow = () => {
       way.classList.add(`hidden`);
       document.body.classList.remove(`modal-open`);
-    });
-    document.addEventListener(`keydown`, (evt) => {
-      if (evt.key === `Escape`) {
-        way.classList.add(`hidden`);
-        document.body.classList.remove(`modal-open`);
+      button.removeEventListener(`click`, onButtonClick);
+      document.removeEventListener(`click`, onDocumentClick);
+      document.removeEventListener(`keydown`, onDocumentKeydown);
+      document.removeEventListener(`keydown`, window.picture.onDocumentKeydown);
+    };
+    const onButtonClick = () => {
+      closeWindow(way);
+    };
+
+    const onDocumentKeydown = (evt) => {
+      if (evt.key === window.render.ESCAPE) {
+        closeWindow(way);
       }
-    });
-    document.addEventListener(`click`, (evt)=>{
+    };
+    const onDocumentClick = (evt) => {
       const isClickInside = sill.contains(evt.target);
       if (!isClickInside) {
-        way.classList.add(`hidden`);
+        closeWindow(way);
       }
-    });
+    };
+    button.addEventListener(`click`, onButtonClick);
+    document.addEventListener(`keydown`, onDocumentKeydown);
+    document.addEventListener(`click`, onDocumentClick);
   };
 
-  form.addEventListener(`submit`, (evt)=>{
+  const onFormSubmit = (evt) => {
     evt.preventDefault();
     window.backend.send(new FormData(form), onSuccess, onError);
-  });
+  };
+  form.addEventListener(`submit`, onFormSubmit);
+
   window.send = {
     valueZoom,
-    initialSettings
+    startInitialSettings,
+    onFormSubmit
   };
 })();

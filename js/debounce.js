@@ -1,16 +1,15 @@
-// Файл debounce.js
 'use strict';
 (() => {
-  const DEBOUNCE_INTERVAL = 500; // ms
+  const DEBOUNCE_INTERVAL = 500;
 
   window.debounce = (cb) => {
-    let lastTimeout = null;
-
+    let lastTimeOut = null;
     return (...parameters) => {
-      if (lastTimeout) {
-        window.clearTimeout(lastTimeout);
+      if (lastTimeOut) {
+        window.clearTimeout(lastTimeOut);
       }
-      lastTimeout = window.setTimeout(() => {
+
+      lastTimeOut = window.setTimeout(() => {
         cb(...parameters);
       }, DEBOUNCE_INTERVAL);
     };
