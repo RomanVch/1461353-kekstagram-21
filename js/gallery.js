@@ -21,7 +21,6 @@
     for (let i = 0; i < listLength; i++) {
       const photo = window.render.renderPicture(listName[i]);
       const randomPhotoGalleryIcon = photo.querySelector(`.picture`);
-      console.log(window.render.renderPicture(listName[i]));
       const onRandomPhotoGalleryIconClick = (evt) => {
         evt.preventDefault();
         window.render.bigPictureRender(listName[i]);
