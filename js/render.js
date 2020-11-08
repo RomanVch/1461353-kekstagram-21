@@ -14,28 +14,26 @@
   let gettingServerInformation = null;
   let postingImpressionsComment = 5;
   let picturesAdding = 5;
-  const getComentsInfo = (way)=>{
-    const fragment = document.createDocumentFragment();
-    const comment = renderComment({
-      avatar: way.avatar,
-      message: way.message
-    });
-    fragment.appendChild(comment);
-    listComments.appendChild(fragment);
-  };
+
 
   const onCommentsLoadClick = () => {
+    const fragment = document.createDocumentFragment();
     picturesAdding = picturesAdding + DEFAULT_DIGIT;
     for (numberOfComment; numberOfComment < picturesAdding; numberOfComment++) {
       if (postingImpressionsComment < gettingServerInformation.comments.length) {
-        getComentsInfo(gettingServerInformation.comments[numberOfComment]);
+        const comment = renderComment({
+          avatar: gettingServerInformation.comments[numberOfComment].avatar,
+          message: gettingServerInformation.comments[numberOfComment].message
+        });
         postingImpressionsComment = postingImpressionsComment + 1;
         quantityComment.textContent = `${postingImpressionsComment} из ${gettingServerInformation.comments.length} комментариев`;
+        fragment.appendChild(comment);
       } else {
         buttonLoadComments.classList.add(`hidden`);
         break;
       }
     }
+    listComments.appendChild(fragment);
   };
 
   const onButtonClosureClick = () => {
@@ -98,23 +96,27 @@
     mainPicture.src = picture.url;
     likesCount.textContent = picture.likes;
     maximumComments.textContent = picture.comments.length;
-
+    const fragment = document.createDocumentFragment();
 
     for (let i = 0; i < picture.comments.length; i++) {
+      const comment = renderComment({
+        avatar: picture.comments[i].avatar,
+        message: picture.comments[i].message
+      });
       if (picture.comments.length > numberOfComment) {
-        getComentsInfo(picture.comments[i]);
         quantityComment.textContent = `5 из ${picture.comments.length} комментариев`;
+        fragment.appendChild(comment);
         if (i === RENDER_STOP_INDEX) {
           break;
         }
       } else {
-        getComentsInfo(picture.comments[i]);
         quantityComment.textContent = `${picture.comments.length}
          из ${picture.comments.length} комментариев`;
         buttonLoadComments.classList.add(`hidden`);
+        fragment.appendChild(comment);
       }
     }
-
+    listComments.appendChild(fragment);
     buttonLoadComments.addEventListener(`click`, onCommentsLoadClick);
     document.addEventListener(`keydown`, onDocumentKeydown);
   };

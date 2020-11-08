@@ -7,23 +7,23 @@
   const randomButton = pictureFilter.querySelector(`#filter-random`);
   const defaultButton = pictureFilter.querySelector(`#filter-default`);
   const commentsSortButton = pictureFilter.querySelector(`#filter-discussed`);
-  let pictureLists = [];
-  let randomLists = [];
-  let uniqRandomLists = [];
-  let sortPictureLists = [];
+  let picturesList = [];
+  let randomsList = [];
+  let uniqueRandomsList = [];
+  let sortedPicturesList = [];
 
-  const renderFiltres = (listName, listLength)=> {
+  const renderFilters = (image, listLength)=> {
     const fragment = document.createDocumentFragment();
     const photoGalleryIcons = document.querySelectorAll(`.picture`);
     for (let i = 0; i < photoGalleryIcons.length; i++) {
       photoGalleryIcons[i].remove();
     }
     for (let i = 0; i < listLength; i++) {
-      const photo = window.render.renderPicture(listName[i]);
+      const photo = window.render.renderPicture(image[i]);
       const randomPhotoGalleryIcon = photo.querySelector(`.picture`);
       const onRandomPhotoGalleryIconClick = (evt) => {
         evt.preventDefault();
-        window.render.bigPictureRender(listName[i]);
+        window.render.bigPictureRender(image[i]);
         window.render.bigPicture.classList.remove(`hidden`);
         document.body.classList.add(`modal-open`);
       };
@@ -45,8 +45,8 @@
   };
 
   const onSuccess = (pictures) => {
-    pictureLists = pictures;
-    sortPictureLists = pictures.slice();
+    picturesList = pictures;
+    sortedPicturesList = pictures.slice();
     const fragment = document.createDocumentFragment();
     pictures.forEach((picture) => {
       const photo = window.render.renderPicture(picture);
@@ -86,29 +86,29 @@
   });
 
   const onRandomButtonClick = () => {
-    for (let i = 0; i < pictureLists.length; i++) {
-      randomLists.push(pictureLists[Math.floor(getRandomNumber(0, pictureLists.length - 1))]);
-      uniqRandomLists = [...new Set(randomLists)];
+    for (let i = 0; i < picturesList.length; i++) {
+      randomsList.push(picturesList[Math.floor(getRandomNumber(0, picturesList.length - 1))]);
+      uniqueRandomsList = [...new Set(randomsList)];
     }
-    renderFiltres(uniqRandomLists, RENDER_RANDOM_NUMBER);
+    renderFilters(uniqueRandomsList, RENDER_RANDOM_NUMBER);
     randomButton.classList.add(`img-filters__button--active`);
     defaultButton.classList.remove(`img-filters__button--active`);
     commentsSortButton.classList.remove(`img-filters__button--active`);
-    randomLists = [];
+    randomsList = [];
   };
 
   const onDefaultButtonClick = () => {
-    renderFiltres(pictureLists, pictureLists.length);
+    renderFilters(picturesList, picturesList.length);
     randomButton.classList.remove(`img-filters__button--active`);
     defaultButton.classList.add(`img-filters__button--active`);
     commentsSortButton.classList.remove(`img-filters__button--active`);
   };
 
   const onCommentsSortButtonClick = () => {
-    sortPictureLists.sort((a, b)=> {
+    sortedPicturesList.sort((a, b)=> {
       return b.comments.length - a.comments.length;
     });
-    renderFiltres(sortPictureLists, sortPictureLists.length);
+    renderFilters(sortedPicturesList, sortedPicturesList.length);
     randomButton.classList.remove(`img-filters__button--active`);
     defaultButton.classList.remove(`img-filters__button--active`);
     commentsSortButton.classList.add(`img-filters__button--active`);

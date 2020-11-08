@@ -4,7 +4,15 @@
   const uploadFile = document.querySelector(`#upload-file`);
   const imgUploadOverlay = document.querySelector(`.img-upload__overlay`);
   const uploadCancel = window.form.imgUpload.querySelector(`#upload-cancel`);
-
+  const uploadRemoveEventListener = () => {
+    window.send.startInitialSettings();
+    body.classList.remove(`modal-open`);
+    window.form.scaleControlSmaller.removeEventListener(`click`, window.form.onScaleControlSmallerClick);
+    window.form.scaleControlBigger.removeEventListener(`click`, window.form.onScaleControlBiggerClick);
+    window.form.effectLevelPin.removeEventListener(`mousedown`, window.form.onEffectLevelPinMouseDown);
+    window.form.effectLevelValue.removeEventListener(`click`, window.form.onEffectLevelValueClick);
+    document.removeEventListener(`keydown`, onDocumentKeydown);
+  };
   const onUploadFileChange = () => {
     imgUploadOverlay.classList.remove(`hidden`);
     body.classList.add(`modal-open`);
@@ -16,19 +24,13 @@
   };
 
   const onUploadCancelClick = () => {
-    window.send.startInitialSettings();
-    body.classList.remove(`modal-open`);
-    window.form.scaleControlSmaller.removeEventListener(`click`, window.form.onScaleControlSmallerClick);
-    window.form.scaleControlBigger.removeEventListener(`click`, window.form.onScaleControlBiggerClick);
-    window.form.effectLevelPin.removeEventListener(`mousedown`, window.form.onEffectLevelPinMouseDown);
-    window.form.effectLevelValue.removeEventListener(`click`, window.form.onEffectLevelValueClick);
-    document.removeEventListener(`keydown`, onDocumentKeydown);
+    uploadRemoveEventListener();
   };
 
   const onDocumentKeydown = (evt) => {
     if (document.activeElement !== window.validation.hastag && evt.key === window.render.ESCAPE && document.activeElement !== window.validation.comentFoto && evt.key === window.render.ESCAPE) {
       evt.preventDefault();
-      onUploadCancelClick();
+      uploadRemoveEventListener();
     }
   };
 
