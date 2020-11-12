@@ -4,10 +4,25 @@
   const STEP_ZOOM = 25;
   const BRIGHTNESS_STEP_DIVISOR = 50;
   const BLUR_DIVISOR = 33.3333;
+  const DEFAULT_DIGIT = 100;
+  const DEFAULT_LEVEL_VALUE = `100`;
+  const imgUploadInput = document.querySelector(`.img-upload__input`);
   const imgUpload = document.querySelector(`.img-upload`);
   const imgUploadEffectLevel = imgUpload.querySelector(`.img-upload__effect-level`);
   const effectsRadio = imgUpload.querySelectorAll(`.effects__radio`);
-  const prewiewFoto = imgUpload.querySelector(`#prewiew__foto`);
+  const demonstrationPhoto = imgUpload.querySelector(`#prewiew__foto`);
+  const body = document.body;
+  const uploadCancel = imgUpload.querySelector(`#upload-cancel`);
+  const uploadFile = document.querySelector(`#upload-file`);
+  const imgUploadOverlay = document.querySelector(`.img-upload__overlay`);
+  const defaultEffects = [
+    ``,
+    `grayscale(1)`,
+    `sepia(1)`,
+    `invert(100%)`,
+    `blur(3px)`,
+    `brightness(3)`,
+  ];
   let onEffectLevelPinMouseDown = null;
   const effectsClasses = [
     `none`,
@@ -27,56 +42,65 @@
   const scaleControlBigger = imgUpload.querySelector(`.scale__control--bigger`);
   const scaleControlValue = imgUpload.querySelector(`.scale__control--value`);
   const imgUploadPreview = imgUpload.querySelector(`.img-upload__preview`);
+  let valueZoom = 100;
+
+  const startInitialSettings = () => {
+    window.form.imgUploadPreview.style.transform = `scale(1)`;
+    valueZoom = DEFAULT_DIGIT;
+    window.form.effectsRadio[0].checked = true;
+    window.validation.hashtag.value = ``;
+    window.validation.commentPhoto.value = ``;
+    window.form.demonstrationPhoto.style.filter = ``;
+    window.form.demonstrationPhoto.className = ``;
+    window.form.imgUploadEffectLevel.classList.add(`hidden`);
+    imgUploadInput.value = ``;
+    window.form.imgUploadOverlay.classList.add(`hidden`);
+    uploadFile.value = ``;
+    window.form.scaleControlValue.value = `100%`;
+    window.form.effectLevelValue.value = DEFAULT_LEVEL_VALUE;
+  };
 
   const onScaleControlSmallerClick = () => {
-    if (window.send.valueZoom > STEP_ZOOM + 1) {
-      window.send.valueZoom = window.send.valueZoom - STEP_ZOOM;
-      scaleControlValue.value = window.send.valueZoom + `%`;
-      imgUploadPreview.style.transform = `scale(${window.send.valueZoom / STANDART_VALUE})`;
+    if (valueZoom > STEP_ZOOM + 1) {
+      valueZoom = valueZoom - STEP_ZOOM;
+      scaleControlValue.value = valueZoom + `%`;
+      imgUploadPreview.style.transform = `scale(${valueZoom / STANDART_VALUE})`;
     } else {
-      window.send.valueZoom = STEP_ZOOM;
-      scaleControlValue.value = window.send.valueZoom + `%`;
-      imgUploadPreview.style.transform = `scale(${window.send.valueZoom / STANDART_VALUE})`;
+      valueZoom = STEP_ZOOM;
+      scaleControlValue.value = valueZoom + `%`;
+      imgUploadPreview.style.transform = `scale(${valueZoom / STANDART_VALUE})`;
     }
   };
 
   const onScaleControlBiggerClick = () => {
-    if (window.send.valueZoom < STANDART_VALUE) {
-      window.send.valueZoom = window.send.valueZoom + STEP_ZOOM;
-      scaleControlValue.value = window.send.valueZoom + `%`;
-      imgUploadPreview.style.transform = `scale(${window.send.valueZoom / STANDART_VALUE})`;
+    if (valueZoom < STANDART_VALUE) {
+      valueZoom = valueZoom + STEP_ZOOM;
+      scaleControlValue.value = valueZoom + `%`;
+      imgUploadPreview.style.transform = `scale(${valueZoom / STANDART_VALUE})`;
     } else {
-      window.send.valueZoom = STANDART_VALUE;
-      scaleControlValue.value = window.send.valueZoom + `%`;
-      imgUploadPreview.style.transform = `scale(${window.send.valueZoom / STANDART_VALUE})`;
+      valueZoom = STANDART_VALUE;
+      scaleControlValue.value = valueZoom + `%`;
+      imgUploadPreview.style.transform = `scale(${valueZoom / STANDART_VALUE})`;
     }
   };
 
   for (let i = 0; i < effectsRadio.length; i++) {
 
     const onEffectsRadioChange = () => {
-      prewiewFoto.className = ``;
+      demonstrationPhoto.className = ``;
       imgUploadEffectLevel.classList.remove(`hidden`);
-      prewiewFoto.classList.add(effectsClasses[i]);
-      const defaultEffects = [
-        ``,
-        `grayscale(1)`,
-        `sepia(1)`,
-        `invert(100%)`,
-        `blur(3px)`,
-        `brightness(3)`,
-      ];
+      demonstrationPhoto.classList.add(effectsClasses[i]);
       for (let y = 0; y < defaultEffects.length; y++) {
-        if (prewiewFoto.classList.contains(effectsClasses[y])) {
-          prewiewFoto.style.filter = defaultEffects[y];
+        if (demonstrationPhoto.classList.contains(effectsClasses[y])) {
+          demonstrationPhoto.style.filter = defaultEffects[y];
         } else if (shift !== STANDART_VALUE) {
           shift = STANDART_VALUE;
           effectLevelPin.style.left = `100%`;
           effectLevelDepth.style.width = `100%`;
         } else if (effectsRadio[0].checked) {
-          prewiewFoto.className = ``;
+          demonstrationPhoto.className = ``;
           imgUploadEffectLevel.classList.add(`hidden`);
-          prewiewFoto.style.filter = ``;
+          demonstrationPhoto.style.filter = ``;
         }
       }
     };
@@ -142,11 +166,45 @@
         `brightness(${brightnessStep})`,
       ];
       for (let i = 0; i < effects.length; i++) {
-        if (prewiewFoto.classList.contains(effectsClasses[i])) {
-          prewiewFoto.style.filter = effects[i];
+        if (demonstrationPhoto.classList.contains(effectsClasses[i])) {
+          demonstrationPhoto.style.filter = effects[i];
         }
       }
     };
+
+    const uploadRemoveEventListener = () => {
+      startInitialSettings();
+      body.classList.remove(`modal-open`);
+      scaleControlSmaller.removeEventListener(`click`, onScaleControlSmallerClick);
+      scaleControlBigger.removeEventListener(`click`, onScaleControlBiggerClick);
+      effectLevelPin.removeEventListener(`mousedown`, onEffectLevelPinMouseDown);
+      effectLevelValue.removeEventListener(`click`, onEffectLevelValueClick);
+      document.removeEventListener(`keydown`, onDocumentKeydown);
+    };
+    const onUploadFileChange = () => {
+      imgUploadOverlay.classList.remove(`hidden`);
+      body.classList.add(`modal-open`);
+      document.addEventListener(`keydown`, onDocumentKeydown);
+      scaleControlSmaller.addEventListener(`click`, onScaleControlSmallerClick);
+      scaleControlBigger.addEventListener(`click`, onScaleControlBiggerClick);
+      effectLevelPin.addEventListener(`mousedown`, onEffectLevelPinMouseDown);
+      effectLevelValue.addEventListener(`click`, onEffectLevelValueClick);
+    };
+
+    const onUploadCancelClick = () => {
+      uploadRemoveEventListener();
+    };
+
+    const onDocumentKeydown = (evt) => {
+      if (document.activeElement !== window.validation.hashtag && evt.key === window.render.ESCAPE && document.activeElement !== window.validation.commentPhoto && evt.key === window.render.ESCAPE) {
+        evt.preventDefault();
+        uploadRemoveEventListener();
+      }
+    };
+
+    uploadFile.addEventListener(`change`, onUploadFileChange);
+
+    uploadCancel.addEventListener(`click`, onUploadCancelClick);
 
     effectLevelPin.addEventListener(`mousedown`, onEffectLevelPinMouseDown);
     effectLevelValue.addEventListener(`click`, onEffectLevelValueClick);
@@ -154,7 +212,8 @@
     return {
       shift,
       effectLevelPin,
-      effectLevelDepth
+      effectLevelDepth,
+      onDocumentKeydown
     };
 
   };
@@ -166,12 +225,15 @@
     scaleControlValue,
     imgUpload,
     effectsRadio,
-    prewiewFoto,
+    demonstrationPhoto,
     scaleControlSmaller,
     onScaleControlSmallerClick,
     scaleControlBigger,
     onScaleControlBiggerClick,
     effectLevelPin,
-    onEffectLevelPinMouseDown
+    onEffectLevelPinMouseDown,
+    startInitialSettings,
+    imgUploadOverlay,
+    uploadFile
   };
 })();

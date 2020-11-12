@@ -1,31 +1,11 @@
 'use strict';
 (() => {
-  const DEFAULT_DIGIT = 100;
-  const DEFAULT_LEVEL_VALUE = `100`;
-  const imgUploadInput = document.querySelector(`.img-upload__input`);
   const main = document.querySelector(`main`);
   const form = document.querySelector(`.img-upload__form`);
-  let valueZoom = 100;
-
-  const startInitialSettings = () => {
-    window.form.imgUploadPreview.style.transform = `scale(1)`;
-    window.send.valueZoom = DEFAULT_DIGIT;
-    window.form.effectsRadio[0].checked = true;
-    window.validation.hastag.value = ``;
-    window.validation.comentFoto.value = ``;
-    window.form.prewiewFoto.style.filter = ``;
-    window.form.prewiewFoto.className = ``;
-    window.form.imgUploadEffectLevel.classList.add(`hidden`);
-    imgUploadInput.value = ``;
-    window.picture.imgUploadOverlay.classList.add(`hidden`);
-    window.picture.uploadFile.value = ``;
-    window.form.scaleControlValue.value = `100%`;
-    window.form.effectLevelValue.value = DEFAULT_LEVEL_VALUE;
-  };
 
   const onSuccess = () => {
     const successMessage = document.querySelector(`#success`);
-    startInitialSettings();
+    window.form.startInitialSettings();
     main.appendChild(successMessage.content);
     const successInner = main.querySelector(`.success`);
     const successButton = successInner.querySelector(`.success__button`);
@@ -36,9 +16,9 @@
 
   const onError = () => {
     const erorrMessage = document.querySelector(`#error`);
-    startInitialSettings();
+    window.form.startInitialSettings();
     main.appendChild(erorrMessage.content);
-    window.picture.imgUploadOverlay.classList.add(`hidden`);
+    window.form.imgUploadOverlay.classList.add(`hidden`);
     const errorWindow = main.querySelector(`.error`);
     const errorButton = errorWindow.querySelector(`.error__button`);
     errorWindow.classList.remove(`hidden`);
@@ -53,7 +33,6 @@
       button.removeEventListener(`click`, onButtonClick);
       document.removeEventListener(`click`, onDocumentClick);
       document.removeEventListener(`keydown`, onDocumentKeydown);
-      document.removeEventListener(`keydown`, window.picture.onDocumentKeydown);
     };
     const onButtonClick = () => {
       closeWindow(way);
@@ -81,9 +60,4 @@
   };
   form.addEventListener(`submit`, onFormSubmit);
 
-  window.send = {
-    valueZoom,
-    startInitialSettings,
-    onFormSubmit
-  };
 })();
