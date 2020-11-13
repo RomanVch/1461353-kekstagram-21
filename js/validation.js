@@ -1,48 +1,56 @@
 'use strict';
 (() => {
   const MAX_COMMENT_LENGTH = 140;
-  const hastag = document.querySelector(`.text__hashtags`);
-  const hastagSymbolsReg = /^#[\w\dа-яА-Я]{1,}$/i;
-  const comentFoto = document.querySelector(`.text__description`);
+  const hashtag = document.querySelector(`.text__hashtags`);
+  const hastagSymbolsReg = /^\#[а-яА-ЯёЁa-zA-Z0-9]+$/;
+  const commentPhoto = document.querySelector(`.text__description`);
 
   const onHastagInput = () => {
-    const separator = hastag.value.toLowerCase().split(` `);
+    const separator = hashtag.value.toLowerCase().split(` `).filter((currentValue) => {
+      return currentValue !== ``;
+    });
     const uniqHastags = [...new Set(separator)];
-    for (let i = 0; i < separator.length; i++) {
-      if (separator.length > 5) {
-        hastag.setCustomValidity(`нельзя указать больше пяти хэш-тегов`);
-      } else if (separator[i][0] !== `#`) {
-        hastag.setCustomValidity(`хэш-тег начинается с символа #`);
-      } else if (!hastagSymbolsReg.test(separator[i])) {
-        hastag.setCustomValidity(`строка после решётки должна состоять из букв и чисел`);
-      } else if (separator[i] === `#`) {
-        hastag.setCustomValidity(`не #`);
-      } else if (separator[i].length > 20) {
-        hastag.setCustomValidity(`максимальная длина одного хэш-тега 20 символов`);
-      } else if (uniqHastags.length !== separator.length) {
-        hastag.setCustomValidity(`один и тот же хэш-тег не может быть использован дважды`);
-      } else {
-        hastag.setCustomValidity(``);
+    if (separator.length > 5) {
+      hashtag.setCustomValidity(`нельзя указать больше пяти хэш-тегов`);
+    } else if (uniqHastags.length !== separator.length) {
+      hashtag.setCustomValidity(`один и тот же хэш-тег не может быть использован дважды`);
+    } else if (hashtag.value !== ``) {
+      for (let i = 0; i < separator.length; i++) {
+        if (separator[i][0] !== `#`) {
+          hashtag.setCustomValidity(`хэш-тег начинается с символа #`);
+          break;
+        } else if (separator[i] === `#`) {
+          hashtag.setCustomValidity(`не #`);
+          break;
+        } else if (!hastagSymbolsReg.test(separator[i])) {
+          hashtag.setCustomValidity(`строка после решётки должна состоять из букв и чисел`);
+          break;
+        } else if (separator[i].length > 20) {
+          hashtag.setCustomValidity(`максимальная длина одного хэш-тега 20 символов`);
+          break;
+        } else {
+          hashtag.setCustomValidity(``);
+        }
       }
-    }
-  };
-
-  const onComentFotoInput = () => {
-    const valueLength = comentFoto.value.length;
-    if (MAX_COMMENT_LENGTH < valueLength) {
-      comentFoto.setCustomValidity(`максимальная длина коментария 140 символов`);
     } else {
-      comentFoto.setCustomValidity(``);
+      hashtag.setCustomValidity(``);
     }
   };
 
-  hastag.addEventListener(`input`, onHastagInput);
-  comentFoto.addEventListener(`input`, onComentFotoInput);
+  const onCommentPhotoInput = () => {
+    const valueLength = commentPhoto.value.length;
+    if (MAX_COMMENT_LENGTH < valueLength) {
+      commentPhoto.setCustomValidity(`максимальная длина коментария 140 символов`);
+    } else {
+      commentPhoto.setCustomValidity(``);
+    }
+  };
+
+  hashtag.addEventListener(`input`, onHastagInput);
+  commentPhoto.addEventListener(`input`, onCommentPhotoInput);
 
   window.validation = {
-    hastag,
-    comentFoto,
-    onHastagInput,
-    onComentFotoInput
+    hashtag,
+    commentPhoto
   };
 })();
