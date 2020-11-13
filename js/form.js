@@ -45,19 +45,19 @@
   let valueZoom = 100;
 
   const startInitialSettings = () => {
-    window.form.imgUploadPreview.style.transform = `scale(1)`;
+    imgUploadPreview.style.transform = `scale(1)`;
     valueZoom = DEFAULT_DIGIT;
-    window.form.effectsRadio[0].checked = true;
+    effectsRadio[0].checked = true;
     window.validation.hashtag.value = ``;
     window.validation.commentPhoto.value = ``;
-    window.form.demonstrationPhoto.style.filter = ``;
-    window.form.demonstrationPhoto.className = ``;
-    window.form.imgUploadEffectLevel.classList.add(`hidden`);
+    demonstrationPhoto.style.filter = ``;
+    demonstrationPhoto.className = ``;
+    imgUploadEffectLevel.classList.add(`hidden`);
     imgUploadInput.value = ``;
-    window.form.imgUploadOverlay.classList.add(`hidden`);
+    imgUploadOverlay.classList.add(`hidden`);
     uploadFile.value = ``;
-    window.form.scaleControlValue.value = `100%`;
-    window.form.effectLevelValue.value = DEFAULT_LEVEL_VALUE;
+    scaleControlValue.value = `100%`;
+    effectLevelValue.value = DEFAULT_LEVEL_VALUE;
   };
 
   const onScaleControlSmallerClick = () => {
@@ -219,21 +219,8 @@
   };
   slide();
   window.form = {
-    imgUploadEffectLevel,
-    effectLevelValue,
-    imgUploadPreview,
-    scaleControlValue,
     imgUpload,
-    effectsRadio,
-    demonstrationPhoto,
-    scaleControlSmaller,
-    onScaleControlSmallerClick,
-    scaleControlBigger,
-    onScaleControlBiggerClick,
-    effectLevelPin,
-    onEffectLevelPinMouseDown,
     startInitialSettings,
-    imgUploadOverlay,
-    uploadFile
+    imgUploadOverlay
   };
 })();
