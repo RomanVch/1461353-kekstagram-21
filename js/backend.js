@@ -38,7 +38,7 @@ const load = (onSuccess, onError) => {
   xhr.addEventListener(`error`, () => {
     onError(xhr.status);
   });
-  xhr.addEventListener(`timeout`, function() {
+  xhr.addEventListener(`timeout`, function () {
     onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
   });
 
