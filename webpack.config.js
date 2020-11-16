@@ -9,6 +9,7 @@
      `./js/render.js`,
      `./js/send.js`,
      `./js/validation.js`,
+     `./js/preview.js`
    ],
    output: {
      filename: `bundle.js`,

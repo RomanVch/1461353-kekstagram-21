@@ -220,5 +220,7 @@ slide();
 window.form = {
   imgUpload,
   startInitialSettings,
-  imgUploadOverlay
+  imgUploadOverlay,
+  uploadFile,
+  demonstrationPhoto
 };
